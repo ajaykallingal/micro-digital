@@ -1,7 +1,6 @@
 class Assets {
   Assets._();
 
-
   // splash screen assets
   static const String splash_background = "assets/images/splash_background.jpg";
   static const String logo = "assets/logo/micro_logo_white.png";
@@ -10,7 +9,7 @@ class Assets {
   static const String background = "assets/images/background.jpg";
   static const String appBarBackground = "assets/images/appbar_background.png";
 
-///icons
+  ///icons
 
   ///home navigation
   static const String iconHome = "assets/icons/home_icon.svg";
@@ -26,12 +25,9 @@ class Assets {
   static const String iconPackages = "assets/icons/packages.png";
   static const String iconMyReports = "assets/icons/my_reports.png";
 
-
   static const String iconArthritis = "assets/icons/arthritis.png";
   static const String iconDrunk = "assets/icons/drunk.png";
   static const String iconFood = "assets/icons/food.png";
-
-
 
   static const String iconBrand1 = "assets/logo/1.png";
   static const String iconBrand2 = "assets/logo/2.png";
@@ -50,20 +46,19 @@ class Assets {
   static const String iconHealthTips = "assets/icons/health_tips.png";
   static const String iconEventAtMHL = "assets/icons/events_at_mhl.png";
   static const String iconDepartments = "assets/icons/departments.png";
-  static const String iconFAQ= "assets/icons/faq.png";
+  static const String iconFAQ = "assets/icons/faq.png";
 
   ///profile
-  static const String iconAddFamily= "assets/icons/add_family.png";
-
-
-
+  static const String iconMyReport = "assets/icons/myreport.png";
+  static const String iconMyFamilyAndFriends =
+      "assets/icons/myfamily & friends.png";
+  static const String iconComplaints = "assets/icons/complaints.png";
+  static const String iconContactUs = "assets/icons/contact us.png";
+  static const String iconTermsAdCondition =
+      "assets/icons/terms and conditions.png";
+  static const String iconLogOut = "assets/icons/logout.png";
 
   ///image
 
   static const String imageCovid = "assets/images/image_covid.png";
-
-
-
-
-
 }

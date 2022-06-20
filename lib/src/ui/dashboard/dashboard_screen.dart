@@ -165,7 +165,7 @@ class _DashboardScreenState extends State<DashboardScreen> with Header {
                             query: searchTextController.text, pageNo: "1"));
                   }
                 }),
-          )
+          ),
         ],
       ),
     );

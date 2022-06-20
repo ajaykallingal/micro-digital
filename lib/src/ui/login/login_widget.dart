@@ -77,7 +77,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                   image: DecorationImage(
                     fit: BoxFit.cover,
                     image: Image.asset(
-                      'assets/images/login__4.jpg',
+                      'assets/images/background 2.jpg',
                     ).image,
                   ),
                 ),
@@ -95,16 +95,17 @@ class _LoginWidgetState extends State<LoginWidget> {
                         decoration: BoxDecoration(),
                       ),
                       Image.asset(
-                        'assets/images/mh_logo.png',
+                        'assets/images/microcheck_logo.png',
                         width: MediaQuery.of(context).size.width * 0.4,
-                        height: 100,
+                        height: 119,
                         fit: BoxFit.contain,
                       ),
+                      SizedBox(height: 50),
                       Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
+                        padding: EdgeInsetsDirectional.fromSTEB(15, 0, 15, 0),
                         child: Container(
                           width: double.infinity,
-                          height: 468,
+                          height: 420,
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.only(
