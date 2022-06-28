@@ -1,12 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:micro_digital/src/ui/add_member/add_member_screen.dart';
+import 'package:micro_digital/src/ui/categories/categories_detailed.dart';
+import 'package:micro_digital/src/ui/categories/categories_view_screen.dart';
 import 'package:micro_digital/src/ui/login/otp_screen_argument.dart';
 import 'package:micro_digital/src/ui/login/otp_verification_screen.dart';
 import 'package:micro_digital/src/ui/orderdetails/orderdetails_widget.dart';
 import 'package:micro_digital/src/ui/package_details/package_details_widget.dart';
+import 'package:micro_digital/src/ui/risk_areas/risk_area_category_detailed_list_view.dart';
+import 'package:micro_digital/src/ui/risk_areas/risk_area_detailed_view_arguments.dart';
+import 'package:micro_digital/src/ui/risk_areas/risk_areas_category.dart';
+import 'package:micro_digital/src/ui/select_member/select_member_page.dart';
 import 'package:micro_digital/src/ui/screening/screening_screen.dart';
 import 'package:micro_digital/src/ui/test_details/test_details_widget.dart';
 
+import '../ui/categories/components/categories_detailed_page_arguments.dart';
 import '../ui/home_navigation/home_navigation_screen.dart';
 import '../ui/login/login_widget.dart';
 import '../ui/splash/splash_screen.dart';
@@ -32,6 +40,12 @@ class RouteGenerator {
   static const myReportPage = '/my_reports';
   static const testInfoPage = '/test_info';
   static const testDetailPage = '/test_detail';
+  static const selectMemberPage = '/select_Member';
+  static const riskAreasCategoriesPage = '/risk_Areas_Category';
+  static const riskAreasCategoriesDetailedPage = '/riskAreas_Category_listView';
+  static const categoriesViewPge = '/category_view';
+  static const categoriesDetailedViewPge = '/category_detailed_view';
+  static const addMemberPage = '/add_member';
   static const screeningScreenPage = '/screeningDetails';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -66,6 +80,36 @@ class RouteGenerator {
       //   return MaterialPageRoute(builder: (_) => ProfileScreen());
       case packageDetailsPage:
         return MaterialPageRoute(builder: (_) => PackageDetailsWidget());
+
+      case selectMemberPage:
+        return MaterialPageRoute(builder: (_) => SelectMemberPage());
+
+      case riskAreasCategoriesPage:
+        return MaterialPageRoute(builder: (_) => RiskAreasCategoryPage());
+
+      case riskAreasCategoriesDetailedPage:
+        final riskAreaCategoryDetailedViewArguments =
+            args as RiskAreaDetailedViewArguments;
+        return MaterialPageRoute(
+            builder: (_) => RiskAreaCategoryDetailedListView(
+                  riskAreaCategoryDetailedViewArguments:
+                      riskAreaCategoryDetailedViewArguments,
+                ));
+
+      case categoriesViewPge:
+        return MaterialPageRoute(builder: (_) => CategoriesViewScreen());
+
+      case categoriesDetailedViewPge:
+        final categoriesDetailedViewPageArguments =
+            args as CategoriesDetailedViewPageArguments;
+        return MaterialPageRoute(
+            builder: (_) => CategoriesDetailed(
+                  categoriesDetailedViewPageArguments:
+                      categoriesDetailedViewPageArguments,
+                ));
+
+      case addMemberPage:
+        return MaterialPageRoute(builder: (_) => AddMemberScreen());
       // case packageCategoryPage:
       //   return MaterialPageRoute(builder: (_) => PackageCategoryScreen());
       // case testInfoPage:

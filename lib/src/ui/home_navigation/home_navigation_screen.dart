@@ -5,9 +5,9 @@ import 'package:micro_digital/src/data/utils/screen_size/size_config.dart';
 import 'package:micro_digital/src/ui/book_a_test/book_test_screen.dart';
 import 'package:micro_digital/src/ui/dashboard/dashboard_screen.dart';
 import 'package:micro_digital/src/ui/my_booking/my_booking_list_screen.dart';
-import 'package:micro_digital/src/ui/mybookings/mybookings_widget.dart';
 import 'package:micro_digital/src/ui/profile/profile_screen.dart';
-import 'package:micro_digital/src/ui/view_packages/view_packages_widget.dart';
+
+import '../add_member/add_member_screen.dart';
 
 class HomeNavigation extends StatefulWidget {
   final int index;
@@ -47,7 +47,8 @@ class _HomeNavigationState extends State<HomeNavigation> {
     BookTestScreen(),
     // TestScreen(),
     // CartScreen(),
-    ViewPackagesWidget(),
+    AddMemberScreen(),
+    // ViewPackagesWidget(),
     // MybookingsWidget(),
     ProfileScreen(),
   ];

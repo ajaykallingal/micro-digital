@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:micro_digital/src/common/styles.dart';
 import 'package:micro_digital/src/constants/assets.dart';
 import 'package:micro_digital/src/constants/colors.dart';
 import 'package:micro_digital/src/data/utils/screen_size/size_config.dart';
 import 'package:micro_digital/src/ui/widgets/header.dart';
+
+import '../flutter_flow/flutter_flow_theme.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -39,6 +42,7 @@ class _ProfileScreenState extends State<ProfileScreen> with Header {
     _width = MediaQuery.of(context).size.width;
     SizeConfig().init(context);
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       backgroundColor: Colors.white,
       body: Stack(
         children: <Widget>[
@@ -47,17 +51,20 @@ class _ProfileScreenState extends State<ProfileScreen> with Header {
 
           // This container will work as Overlay
           SizedBox(
-            height: MediaQuery.of(context).size.height * .2,
+            height: MediaQuery.of(context).size.height * .3,
             child: Stack(
               children: [
                 getOverlayWidget(context: context, isHome: false),
                 const Center(
-                  child: Text(
-                    "Profile",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 27,
-                        fontWeight: FontWeight.w600),
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 50),
+                    child: Text(
+                      "Profile",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 27,
+                          fontWeight: FontWeight.w600),
+                    ),
                   ),
                 ),
               ],
@@ -68,8 +75,8 @@ class _ProfileScreenState extends State<ProfileScreen> with Header {
             child: Stack(
               children: [
                 Positioned(
-                  top: 90,
-                  bottom: 35,
+                  top: 120,
+                  bottom: 15,
                   left: 2,
                   right: 2,
                   child: Container(
@@ -112,33 +119,165 @@ class _ProfileScreenState extends State<ProfileScreen> with Header {
                             // buildFamilyMembers(),
                           ],
                         ),
-                        Positioned(
-                          left: 220,
-                          top: 0,
-                          bottom: 0,
-                          right: 0,
-                          child: Align(
-                            alignment: Alignment.topRight,
-                            child: Container(
-                              margin: EdgeInsets.all(13),
-                              child: MaterialButton(
-                                padding: EdgeInsets.all(6),
-                                onPressed: () {},
-                                child: Image.asset(
-                                  "assets/icons/edit.png",
-                                ),
-                                // color: Colors.blue,
-                                shape: CircleBorder(),
-                                color: Colors.white.withOpacity(1),
-                              ),
-                            ),
-                          ),
-                        ),
                       ],
                     ),
                   ),
                 ),
               ],
+            ),
+          ),
+          Positioned(
+            left: 220,
+            top: 120,
+            bottom: 0,
+            right: 0,
+            child: Align(
+              alignment: Alignment.topRight,
+              child: Container(
+                height: 30,
+                margin: EdgeInsets.all(8),
+                child: MaterialButton(
+                  padding: EdgeInsets.all(7),
+                  onPressed: () {
+                    showModalBottomSheet(
+                        constraints: BoxConstraints(
+                          maxHeight: 200,
+                          maxWidth: double.infinity,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                            topRight: Radius.circular(20),
+                          ),
+                        ),
+                        context: context,
+                        builder: (context) {
+                          return Stack(
+                            children: [
+                              // SizedBox(height: 30),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 8, right: 8),
+                                child: Row(
+                                  children: [
+                                    Flexible(
+                                      child: Column(
+                                        children: [
+                                          SizedBox(height: 30),
+                                          Text(
+                                            "Name",
+                                            style: FlutterFlowTheme.of(context)
+                                                .subtitle1
+                                                .override(
+                                                    fontFamily: 'Titillium Web',
+                                                    color: mainBlueShade,
+                                                    fontSize: 17),
+                                          ),
+                                          SizedBox(height: 10),
+                                          Container(
+                                            height: 40,
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                            ),
+                                            child: TextField(
+                                              decoration: InputDecoration(
+                                                border: OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                      ),
+                                    ),
+                                    SizedBox(width: 10),
+                                    Flexible(
+                                      child: Column(
+                                        children: [
+                                          SizedBox(height: 30),
+                                          Text(
+                                            "Phone",
+                                            style: FlutterFlowTheme.of(context)
+                                                .subtitle1
+                                                .override(
+                                                    fontFamily: 'Titillium Web',
+                                                    color: mainBlueShade,
+                                                    fontSize: 15),
+                                          ),
+                                          SizedBox(height: 10),
+                                          Container(
+                                            height: 40,
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                            ),
+                                            child: TextField(
+                                              decoration: InputDecoration(
+                                                border: OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                      ),
+                                    )
+                                  ],
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                ),
+                              ),
+                              Align(
+                                child: ElevatedButton(
+                                  onPressed: () {},
+                                  child: Text(
+                                    "Submit",
+                                    style: FlutterFlowTheme.of(context)
+                                        .subtitle1
+                                        .override(
+                                            fontFamily: 'Titillium Web',
+                                            color: Colors.white,
+                                            fontSize: 15),
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                    fixedSize: Size(
+                                        MediaQuery.of(context).size.width, 50),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.only(
+                                        topRight: Radius.circular(20),
+                                        topLeft: Radius.circular(20),
+                                      ),
+                                    ),
+                                    primary: mainBlueShade,
+                                  ),
+                                ),
+                                alignment: Alignment.bottomCenter,
+                              ),
+                            ],
+                          );
+                        });
+                  },
+                  child: Image.asset(
+                    "assets/icons/edit.png",
+                  ),
+                  // color: Colors.blue,
+                  shape: CircleBorder(),
+                  color: Colors.white.withOpacity(1),
+                ),
+              ),
             ),
           ),
         ],
@@ -153,7 +292,7 @@ class _ProfileScreenState extends State<ProfileScreen> with Header {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          SizedBox(height: SizeConfig.screenHeight! * .25),
+          SizedBox(height: SizeConfig.screenHeight! * .29),
           // Container(
           //   padding: EdgeInsets.all(12),
           //   width: _width,
@@ -259,19 +398,17 @@ class _ProfileScreenState extends State<ProfileScreen> with Header {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 26.0),
-                      child: Text(
-                        "Switch to family member",
-                        style: const TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.w600),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
+                    // Padding(
+                    //   padding: const EdgeInsets.symmetric(horizontal: 26.0),
+                    //   child: Text(
+                    //     "Switch to family member",
+                    //     style: const TextStyle(
+                    //         fontSize: 20, fontWeight: FontWeight.w600),
+                    //   ),
+                    // ),
+
                     // buildFamilyMembers(),
-                    Divider(),
+                    // Divider(),
                     buildFeatures(),
                     SizedBox(
                       height: 60,
@@ -376,7 +513,8 @@ class _ProfileScreenState extends State<ProfileScreen> with Header {
                         ),
                       ),
                       Expanded(
-                          flex: 4,
+                        flex: 4,
+                        child: GestureDetector(
                           child: Padding(
                             padding: const EdgeInsets.only(left: 24.0),
                             child: Text(
@@ -386,7 +524,12 @@ class _ProfileScreenState extends State<ProfileScreen> with Header {
                                   fontSize: 20,
                                   fontWeight: FontWeight.w700),
                             ),
-                          ))
+                          ),
+                          onTap: () {
+                            // Navigator.of(context).push('');
+                          },
+                        ),
+                      )
                     ],
                   ),
                 )),

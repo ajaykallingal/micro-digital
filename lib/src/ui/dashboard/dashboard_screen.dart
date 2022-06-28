@@ -153,6 +153,7 @@ class _DashboardScreenState extends State<DashboardScreen> with Header {
     //               )),
     //         ));
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       body: Stack(
         children: <Widget>[
@@ -355,12 +356,20 @@ class _DashboardScreenState extends State<DashboardScreen> with Header {
             buildCarouselSlider(),
             buildSpaceWidget(),
             buildHeading(
-                heading: "Packages", onPressed: () {}, showViewAll: true),
+                heading: "Packages",
+                onPressed: () {
+                  // print(ObjectFactory().prefs.isLoggedIn());
+                },
+                showViewAll: true),
             buildSpaceWidget(),
             buildPackages(latestPackageList),
             buildSpaceWidget(),
             buildHeading(
-                heading: "Risk Areas", onPressed: () {}, showViewAll: true),
+                heading: "Risk Areas",
+                onPressed: () {
+                  Navigator.pushNamed(context, "/select_Member");
+                },
+                showViewAll: true),
             buildSpaceWidget(),
             buildCategoryListView(riskAreaList),
             // buildSpaceWidget(),

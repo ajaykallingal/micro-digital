@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+import '../../data/shared_pref/object_factory.dart';
+
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
 
@@ -27,51 +29,62 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void navigationPage() {
     if (mounted) {
+      print(ObjectFactory().prefs.isLoggedIn().toString());
       // Navigator.pushAndRemoveUntil(
       //     context,
       //     MaterialPageRoute(
       //         builder: (context) =>
       //         LoginScreen()),
       //         (Route<dynamic> route) => false);
-      Navigator.pushNamedAndRemoveUntil(context, "/login", (route) => false);
+      // Navigator.pushNamedAndRemoveUntil(context, "/login", (route) => false);
       //
-      // if (!ObjectFactory().prefs.isLoggedIn()!) {
-      //   Navigator.pushNamedAndRemoveUntil(context, "/login", (route) => false);
-      // } else {
-      //   Navigator.pushNamedAndRemoveUntil(
-      //       context, "/dashboard", (route) => false);
-      // }
+      if (!ObjectFactory().prefs.isLoggedIn()!) {
+        Navigator.pushNamedAndRemoveUntil(context, "/login", (route) => false);
+      } else {
+        Navigator.pushNamedAndRemoveUntil(
+            context, "/dashboard", (route) => false);
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: AssetImage("assets/images/background_splash.jpg"),
-              ),
-            ),
+      body: Container(
+        height: double.infinity,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            fit: BoxFit.cover,
+            image: AssetImage("assets/images/background_splash.jpg"),
           ),
-          Align(
-            child: Container(
-              height: 142.78,
-              width: 246.41,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: AssetImage("assets/images/microcheck_logo.png"),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(
+              child: Container(
+                height: 142.78,
+                width: 246.41,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: AssetImage("assets/images/microcheck_logo.png"),
+                  ),
                 ),
               ),
             ),
-            alignment: Alignment.center,
-          ),
-        ],
+            RefreshProgressIndicator(
+              color: Colors.white,
+              backgroundColor: Colors.transparent,
+            ),
+          ],
+        ),
       ),
+      // Align(
+      //   child:
+      //   alignment: Alignment.center,
+      // ),
     );
   }
 }

@@ -55,10 +55,10 @@ class ApiClient {
     };
 
     dio.interceptors.add(InterceptorsWrapper(
-      onRequest: (reqOptions,handler) {
+      onRequest: (reqOptions, handler) {
         return handler.next(reqOptions);
       },
-      onError: (DioError dioError,handler) {
+      onError: (DioError dioError, handler) {
         return handler.next(dioError);
       },
     ));
@@ -86,10 +86,8 @@ class ApiClient {
   ///cart api provider
 
   Future<Response> addToCart(request) {
-    return dio.post(Urls.addToCart,data: request);
+    return dio.post(Urls.addToCart, data: request);
   }
-
-
 
   ///booking  provider
 
@@ -101,13 +99,12 @@ class ApiClient {
 
   //test
   Future<Response> searchTest(SearchRequest request) {
-    return dio.post(Urls.searchTest,data: request);
+    return dio.post(Urls.searchTest, data: request);
   }
-
 
   //package
   Future<Response> searchPackage(SearchRequest request) {
-    return dio.post(Urls.searchPackage,data: request);
+    return dio.post(Urls.searchPackage, data: request);
   }
 
   ///auth provider
@@ -123,10 +120,10 @@ class ApiClient {
     }
   }
 
-  //
+  ///auth create account
 
   Future<Response> createAccountWithPhoneNo(AuthUserRequest request) {
-    return dio.post(Urls.createAccount,data: request);
+    return dio.post(Urls.createAccount, data: request);
   }
 
 
@@ -141,8 +138,13 @@ class ApiClient {
 
 
 
+  Future<Response> categoriesRequest(request) {
+    return dio.post(Urls.categories, data: request);
+  }
 
+  ///list my profile
 
-
-
+  Future<Response> listMyProfile() {
+    return dio.get(Urls.categories);
+  }
 }
