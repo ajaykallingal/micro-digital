@@ -20,7 +20,7 @@ class _SelectMemberPageState extends State<SelectMemberPage> {
   final cartBloc = CartBloc();
 
   SinglePackageResponse? singlePackageResponse;
-final  ListMyProfileResponse? listMyProfileResponse.as;
+  ListMyProfileResponse? listMyProfileResponse;
 
   @override
   void initState() {
@@ -345,10 +345,11 @@ final  ListMyProfileResponse? listMyProfileResponse.as;
                                                 Row(
                                                   children: [
                                                     Text(
-                                                      listMyProfileResponse
-                                                          .myProfileList
-                                                          .basicDetails[0]
-                                                          .price,
+                                                      "John Mathews",
+                                                      // listMyProfileResponse
+                                                      //     .myProfileList
+                                                      //     .basicDetails[0]
+                                                      //     .price,
                                                       style:
                                                           FlutterFlowTheme.of(
                                                                   context)
@@ -361,25 +362,7 @@ final  ListMyProfileResponse? listMyProfileResponse.as;
                                                                     0xFF000000),
                                                               ),
                                                     ),
-                                                    SizedBox(width: 8),
-                                                    Text(
-                                                      " ${singlePackageResponse!.basicDetails[0].listPrice}",
-                                                      style: FlutterFlowTheme
-                                                              .of(context)
-                                                          .subtitle1
-                                                          .override(
-                                                            fontFamily:
-                                                                'Titillium Web',
-                                                            fontSize: 14,
-                                                            decoration:
-                                                                TextDecoration
-                                                                    .lineThrough,
-                                                            color: Color(
-                                                                0xFFAAAAAA),
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                          ),
-                                                    ),
+                                                    // SizedBox(width: 8)
                                                   ],
                                                 )
                                               ],
