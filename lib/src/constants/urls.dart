@@ -34,6 +34,7 @@ class Urls{
   ///Auth provider
   static const String getOtp = "/api/AuthUser?phoneNo=";
   static const String createAccount = "/api/AuthUser";
+  static const String screeningRequest = "/api/Screening";
 
 
 

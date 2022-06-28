@@ -7,6 +7,7 @@ import 'package:dio/dio.dart';
 import 'package:micro_digital/src/constants/urls.dart';
 import 'package:micro_digital/src/data/model/auth/auth_request.dart';
 import 'package:micro_digital/src/data/model/my_booking/my_booking_request.dart';
+import 'package:micro_digital/src/data/model/screening/screening_request.dart';
 import 'package:micro_digital/src/data/model/search/search_request.dart';
 
 
@@ -126,6 +127,12 @@ class ApiClient {
 
   Future<Response> createAccountWithPhoneNo(AuthUserRequest request) {
     return dio.post(Urls.createAccount,data: request);
+  }
+
+
+  ///screening request
+  Future<Response> screeningRequest(ScreeningRequest request) {
+    return dio.post(Urls.screeningRequest,data: request);
   }
 
 

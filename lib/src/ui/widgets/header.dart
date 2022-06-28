@@ -132,14 +132,14 @@ mixin Header {
         VoidCallback? onPressed,
         required bool showViewAll}) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 23),
+      padding: const EdgeInsets.symmetric(horizontal: 12),
       child: Row(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
             heading,
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700,color:Colors.black),
           ),
           showViewAll
               ? GestureDetector(
@@ -152,7 +152,7 @@ mixin Header {
                   style: TextStyle(color: Color(0xFF26ABE2)),
                 ),
                 const SizedBox(
-                  width: 14,
+                  width: 10,
                 ),
                 Container(
                   height: 18,
@@ -176,7 +176,7 @@ mixin Header {
   }
 
   SizedBox buildSpaceWidget() => const SizedBox(
-    height: 20,
+    height: 8,
   );
 
   SizedBox buildRecommendedPackages() {
@@ -201,7 +201,7 @@ mixin Header {
                   ],
                   color: Colors.white,
                 ),
-                height: 130.0,
+                height: 140.0,
                 width: MediaQuery.of(context).size.width * .85,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,

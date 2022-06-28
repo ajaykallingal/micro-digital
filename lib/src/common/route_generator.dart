@@ -4,6 +4,7 @@ import 'package:micro_digital/src/ui/login/otp_screen_argument.dart';
 import 'package:micro_digital/src/ui/login/otp_verification_screen.dart';
 import 'package:micro_digital/src/ui/orderdetails/orderdetails_widget.dart';
 import 'package:micro_digital/src/ui/package_details/package_details_widget.dart';
+import 'package:micro_digital/src/ui/screening/screening_screen.dart';
 import 'package:micro_digital/src/ui/test_details/test_details_widget.dart';
 
 import '../ui/home_navigation/home_navigation_screen.dart';
@@ -31,11 +32,12 @@ class RouteGenerator {
   static const myReportPage = '/my_reports';
   static const testInfoPage = '/test_info';
   static const testDetailPage = '/test_detail';
+  static const screeningScreenPage = '/screeningDetails';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     final args = settings.arguments;
     switch (settings.name) {
-      case initialPage:
+      // case initialPage:
       // if (args is HomeNavigationArgs) {
       //   return MaterialPageRoute(builder: (_) => HomeNavigation(args: args,));
       // } else {
@@ -74,6 +76,9 @@ class RouteGenerator {
       //   return MaterialPageRoute(builder: (_) => CartScreen());
       case testDetailPage:
         return MaterialPageRoute(builder: (_) => TestDetailsWidget());
+      case screeningScreenPage:
+        final arguments = args as String;
+        return MaterialPageRoute(builder: (_) => ScreeningScreen(screeningType: arguments,));
       case bookingDetailPage:
         return MaterialPageRoute(builder: (_) => OrderdetailsWidget());
       default:

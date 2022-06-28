@@ -3,6 +3,7 @@ import 'package:micro_digital/src/data/model/common/state_model.dart';
 import 'package:micro_digital/src/data/provider/cart_api_provider.dart';
 import 'package:micro_digital/src/data/provider/master_provider.dart';
 import 'package:micro_digital/src/data/provider/my_booking_provider.dart';
+import 'package:micro_digital/src/data/provider/screening_provider.dart';
 import 'package:micro_digital/src/data/provider/search_provider.dart';
 
 import '../provider/auth_api_provider.dart';
@@ -16,6 +17,7 @@ class Repository {
   final searchApiProvider = SearchApiProvider();
   final cartApiProvider = CartApiProvider();
   final authApiProvider = AuthApiProvider();
+  final screeningApiProvider = ScreeningApiProvider();
 
 
   /// auth api provider
@@ -50,11 +52,17 @@ class Repository {
   Future<StateModel> searchPackage(request) =>
       searchApiProvider.searchPackage(request);
 
+
+  ///auth api provider
   Future<StateModel> createAccountWithPhoneNo(request) =>
       authApiProvider.createAccountWithPhoneNo(request);
 
   Future<StateModel> getOtp(String phoneNo) =>
       authApiProvider.getOtp(phoneNo);
+
+  ///screening api provider
+  Future<StateModel> screeningRequest(request) =>
+      screeningApiProvider.screeningRequest(request);
 
 
 }

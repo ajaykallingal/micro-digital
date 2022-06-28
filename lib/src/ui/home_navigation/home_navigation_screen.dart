@@ -63,79 +63,86 @@ class _HomeNavigationState extends State<HomeNavigation> {
         children: [
           _children[currentIndex],
           Positioned(
-            bottom: 0,
-            left: 0,
+            bottom: 20,
+            left: 20,right: 20,
             child: Container(
               width: size.width,
-              height: 80,
-              child: Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  CustomPaint(
-                    size: Size(size.width, 80),
-                    painter: BNBCustomPainter(),
-                  ),
-                  Center(
-                    heightFactor: 0.6,
-                    child: FloatingActionButton(
-                        backgroundColor: Color(0xFF26ABE2),
-                        child: SizedBox(
-                            height: 25,
-                            width: 25,
-                            child: SvgPicture.asset(
-                              Assets.bookATest,
-                              width: 20,
-                              height: 20,
-                              fit: BoxFit.cover,
-                              color: Colors.white,
-                            )),
-                        elevation: 0.1,
-                        onPressed: () {
-                          setState(() {
-                            currentIndex = 2;
-                          });
-                        }),
-                  ),
-                  Container(
-                    width: size.width,
-                    height: 80,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: List.generate(
-                          5,
-                          (index) => index == 2
-                              ? Container(
-                                  width: 25,
-                                )
-                              : GestureDetector(
-                                  onTap: () => setBottomBarIndex(index),
-                                  child: SizedBox(
-                                      height: currentIndex == index
-                                          ? getProportionateScreenHeight(24)
-                                          : getProportionateScreenHeight(20),
-                                      width: currentIndex == index
-                                          ? getProportionateScreenHeight(24)
-                                          : getProportionateScreenHeight(20),
-                                      // child: Image.asset(
-                                      //   iconList[index],
-                                      //   fit: BoxFit.contain,
-                                      //   color: currentIndex == index ? Colors.blueAccent : Colors.grey.shade400,
-                                      // )),
-                                      child: SvgPicture.asset(
-                                        iconList[index],
-                                        width: 20,
-                                        height: 20,
-                                        fit: BoxFit.cover,
-                                        color: currentIndex == index
-                                            ? Colors.blueAccent
-                                            : Colors.grey.shade400,
-                                      )),
+              height: 60,
+              decoration: BoxDecoration(color: Colors.white,borderRadius: BorderRadius.circular(12),boxShadow: [BoxShadow(color: Colors.black26,blurRadius: 2)]),
+              child: Row(
+                // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: List.generate(
+                    4,
+                        (index) =>Expanded(
+                          child: InkWell(
+                      onTap: () => setBottomBarIndex(index),
+                      splashColor: Colors.black26,focusColor: Colors.red,highlightColor: Colors.green,
+                      child: Container(
+
+                       // color: Colors.grey,
+                          child: Center(
+                            child: SizedBox(
+                                height: currentIndex == index
+                                    ? getProportionateScreenHeight(24)
+                                    : getProportionateScreenHeight(20),
+                                width: currentIndex == index
+                                    ? getProportionateScreenHeight(24)
+                                    : getProportionateScreenHeight(20),
+                                // child: Image.asset(
+                                //   iconList[index],
+                                //   fit: BoxFit.contain,
+                                //   color: currentIndex == index ? Colors.blueAccent : Colors.grey.shade400,
+                                // )),
+                                child: SvgPicture.asset(
+                                  iconList[index],
+                                  width: 20,
+                                  height: 20,
+                                  fit: BoxFit.cover,
+                                  color: currentIndex == index
+                                      ? Colors.blueAccent
+                                      : Colors.grey.shade400,
                                 )),
+                          ),
+                      ),
                     ),
-                  )
-                ],
+                        )),
               ),
             ),
+            // child: Container(
+            //   width: size.width,
+            //   height: 60,
+            //   child: Stack(
+            //     clipBehavior: Clip.none,
+            //     children: [
+            //       // CustomPaint(
+            //       //   size: Size(size.width, 80),
+            //       //   painter: BNBCustomPainter(),
+            //       // ),
+            //       // Center(
+            //       //   heightFactor: 0.6,
+            //       //   child: FloatingActionButton(
+            //       //       backgroundColor: Color(0xFF26ABE2),
+            //       //       child: SizedBox(
+            //       //           height: 25,
+            //       //           width: 25,
+            //       //           child: SvgPicture.asset(
+            //       //             Assets.bookATest,
+            //       //             width: 20,
+            //       //             height: 20,
+            //       //             fit: BoxFit.cover,
+            //       //             color: Colors.white,
+            //       //           )),
+            //       //       elevation: 0.1,
+            //       //       onPressed: () {
+            //       //         setState(() {
+            //       //           currentIndex = 2;
+            //       //         });
+            //       //       }),
+            //       // ),
+            //
+            //     ],
+            //   ),
+            // ),
           )
         ],
       ),

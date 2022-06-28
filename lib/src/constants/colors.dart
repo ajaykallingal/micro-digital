@@ -23,6 +23,8 @@ class AppColors {
   static Color titleColor = Color(0xFF434343).withOpacity(.77);
   static const Color dateColor = Color(0xFFD95B00);
   static const Color nextButtonColor = Color(0xFF5AC96B);
+  static const Color priceColor = Color(0xFF9AC12B);
+  static const Color disabledColor = Color(0xFFAAAAAA);
   static const Color accentColor = Colors.blue;
 
 }

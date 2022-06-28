@@ -1,6 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:micro_digital/src/constants/assets.dart';
+import 'package:micro_digital/src/constants/colors.dart';
 import 'package:micro_digital/src/data/bloc/master_bloc.dart';
 import 'package:micro_digital/src/data/model/dashboard/dashboard_response.dart';
 import 'package:micro_digital/src/data/utils/screen_size/size_config.dart';
@@ -43,6 +46,8 @@ class _DashboardScreenState extends State<DashboardScreen> with Header {
 
   List<Latest> latestPackageList = List.empty(growable: true);
   List<CategoryList> riskAreaList = List.empty(growable: true);
+  List<CategoryList> categoryList = List.empty(growable: true);
+  List<ActiveScreeningType> activeScreeningList = List.empty(growable: true);
   List<String> brandList = List.empty(growable: true);
   List<Latest> recommendedPackageList = List.empty(growable: true);
   List<Latest> popularPackageList = List.empty(growable: true);
@@ -71,27 +76,36 @@ class _DashboardScreenState extends State<DashboardScreen> with Header {
     });
 
     masterBloc.getDashboardSCListener.listen((event) {
-      setState(() {
-        imageSliders = List.generate(
-            event.banners.length,
-            (index) => SizedBox(
-                  height: 100,
-                  child: ClipRRect(
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(12.0)),
-                      child: Image.network(
-                        event.banners[index].imageDir,
-                        fit: BoxFit.fill,
-                        height: 100,
-                        width: MediaQuery.of(context).size.width,
-                      )),
-                ));
-        latestPackageList = event.latest;
-        riskAreaList = event.riskAreas;
-        // brandList =event.b;
-        // recommendedPackageList = event.r
-        popularPackageList = event.popular;
-      });
+      if(mounted) {
+        setState(() {
+          imageSliders = List.generate(
+              event.banners.length,
+                  (index) =>
+                  SizedBox(
+                    height: 100,
+                    child: ClipRRect(
+                        borderRadius:
+                        const BorderRadius.all(Radius.circular(12.0)),
+                        child: Image.network(
+                          event.banners[index].imageDir,
+                          fit: BoxFit.fill,
+                          height: 100,
+                          width: MediaQuery
+                              .of(context)
+                              .size
+                              .width,
+                        )),
+                  ));
+          latestPackageList = event.latest;
+          riskAreaList = event.riskAreas;
+          categoryList = event.categoryList;
+          activeScreeningList = event.activeScreeningTypes;
+
+          // brandList =event.b;
+          // recommendedPackageList = event.r
+          popularPackageList = event.popular;
+        });
+      }
     });
   }
 
@@ -99,8 +113,8 @@ class _DashboardScreenState extends State<DashboardScreen> with Header {
   void initState() {
     super.initState();
     masterBloc.getDashboardData();
-    searchBloc.searchTest(
-        request: SearchRequest(query: searchTextController.text, pageNo: "1"));
+    // searchBloc.searchTest(
+    //     request: SearchRequest(query: searchTextController.text, pageNo: "1"));
   }
 
   @override
@@ -143,29 +157,184 @@ class _DashboardScreenState extends State<DashboardScreen> with Header {
       body: Stack(
         children: <Widget>[
           // The containers in the background and scrollable
-          getScrollableBody(),
-          // This container will work as Overlay
-          getOverlayWidget(context: context, isHome: true, isDashboard: true),
-          Positioned(
-            bottom: 0,
-            top: 30,
-            right: 2,
-            left: 2,
-            child: getSearchWidget(
-                context: context,
-                textEditingController: searchTextController,
-                onSubmitted: (s) {
-                  if (currentTabIndex == 0) {
-                    searchBloc.searchTest(
-                        request: SearchRequest(
-                            query: searchTextController.text, pageNo: "1"));
-                  } else {
-                    searchBloc.searchPackage(
-                        request: SearchRequest(
-                            query: searchTextController.text, pageNo: "1"));
-                  }
-                }),
+          CustomScrollView(
+            physics: BouncingScrollPhysics(),
+            slivers: <Widget>[
+              SliverAppBar(
+
+                backgroundColor: Colors.transparent,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30))),
+                // 3
+                expandedHeight: 100.0,automaticallyImplyLeading: false,
+                // 4
+                pinned: false,
+                elevation: 0,
+                // 5
+                flexibleSpace: FlexibleSpaceBar(titlePadding: EdgeInsets.only(left:0 , bottom:0 ),
+                  title: Container(
+                    alignment: Alignment.bottomCenter,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: Image.asset(
+                          'assets/images/TOP_BAR.png',
+                          width: double.infinity,
+                          height: 100,
+                          fit: BoxFit.fill,
+                        ).image,
+                      ),
+                      borderRadius: const BorderRadius.only(
+                          bottomRight: Radius.circular(20), bottomLeft: Radius.circular(20)),
+
+                    ),
+                    height: 100,
+                    width: _width,
+                    child:Padding(
+                      padding: const EdgeInsets.only(left:8.0,right: 8.0,top: 20),
+                      child: Center(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(height: 35,width: 50,
+                                child: Image.asset(Assets.logo)),
+                            // Row(
+                            //   mainAxisSize: MainAxisSize.min,
+                            //   children:  [
+                            //     SizedBox(
+                            //         height: _height*.05,
+                            //         child: const Icon(
+                            //           Icons.location_on_rounded,
+                            //           color: Colors.white,
+                            //         )),
+                            //     Text(
+                            //       " Kerala, India",
+                            //       style: TextStyle(color: Colors.white, fontSize: 17),
+                            //     )
+                            //   ],
+                            // ),
+
+                            IconButton(onPressed: (){
+                              Navigator.pushNamed(context, '/cart');
+                            }, icon: Padding(
+                              padding: const EdgeInsets.all(3.0),
+                              child: Image.asset(Assets.iconCart,width: 18,height: 18,),
+                            ))
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  collapseMode: CollapseMode.parallax,
+                  // background: ImageWithTopShadowWidget(imagePath),
+                ),
+              ),
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                      (context, index) => Padding(
+                      padding: const EdgeInsets.only(bottom: 20),
+                      // 7
+                      child: Column(
+                        children: [
+                          // SizedBox(
+                          //   height: _height * .20,
+                          // ),
+                          // buildFirstRow(),
+                          buildCarouselSlider(),
+                          buildSpaceWidget(),
+                          buildHeading(
+                              heading: "Packages", onPressed: () {}, showViewAll: true),
+                          buildSpaceWidget(),
+                          buildPackages(latestPackageList),
+                          buildSpaceWidget(),
+                          buildHeading(
+                              heading: "Risk Areas", onPressed: () {}, showViewAll: true),
+                          buildSpaceWidget(),
+                          buildCategoryListView(riskAreaList),
+                          // buildSpaceWidget(),
+                          // buildHeading(
+                          //     heading: "Our Brands", onPressed: () {}, showViewAll: false),
+                          // buildSpaceWidget(),
+                          // buildBrandListView(),
+                          buildSpaceWidget(),
+                          activeScreeningList.isNotEmpty?Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                            child: InkWell(
+                              onTap: (){
+                                Navigator.pushNamed(context, "/screeningDetails",arguments: activeScreeningList[0].id);
+                              },
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.all(Radius.circular(12)),
+                                // child: Image.asset(Assets.imageCovid),
+                                child: Image.network(activeScreeningList[0].image),
+                              ),
+                            ),
+                          ):Container(),
+                          buildSpaceWidget(),
+                          buildHeading(
+                              heading: "Categories", onPressed: () {}, showViewAll: true),
+                          buildSpaceWidget(),
+                          buildCategoryListView(categoryList),
+                          // buildSpaceWidget(),
+                          // buildHeading(
+                          //     heading: "Recommended Packages",
+                          //     onPressed: () {},
+                          //     showViewAll: true),
+                          // buildSpaceWidget(),
+                          // buildRecommendedTestListView(),
+                          // buildSpaceWidget(),
+                          activeScreeningList.length>1?Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                            child: InkWell(
+                              onTap: (){
+                                Navigator.pushNamed(context, "/screeningDetails",arguments: activeScreeningList[1].id);
+                              },
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.all(Radius.circular(12)),
+                                // child: Image.asset(Assets.imageCovid),
+                                child: Image.network(activeScreeningList[1].image),
+                              ),
+                            ),
+                          ):Container(),
+                          buildSpaceWidget(),
+
+                          buildHeading(
+                              heading: "Popular Tests", onPressed: () {}, showViewAll: true),
+                          buildSpaceWidget(),
+                          buildPackages(popularPackageList),
+                          SizedBox(height: 80,),
+                        ],
+                      )),
+                  childCount: 1,
+                ),
+              ),
+            ],
           ),
+          // getScrollableBody(),
+          // This container will work as Overlay
+          // getOverlayWidget(context: context, isHome: true, isDashboard: true),
+          // Positioned(
+          //   bottom: 0,
+          //   top: 30,
+          //   right: 2,
+          //   left: 2,
+          //   child: getSearchWidget(
+          //       context: context,
+          //       textEditingController: searchTextController,
+          //       onSubmitted: (s) {
+          //         if (currentTabIndex == 0) {
+          //           searchBloc.searchTest(
+          //               request: SearchRequest(
+          //                   query: searchTextController.text, pageNo: "1"));
+          //         } else {
+          //           searchBloc.searchPackage(
+          //               request: SearchRequest(
+          //                   query: searchTextController.text, pageNo: "1"));
+          //         }
+          //       }),
+          // ),
         ],
       ),
     );
@@ -188,54 +357,65 @@ class _DashboardScreenState extends State<DashboardScreen> with Header {
             buildHeading(
                 heading: "Packages", onPressed: () {}, showViewAll: true),
             buildSpaceWidget(),
-            buildPackages(),
+            buildPackages(latestPackageList),
             buildSpaceWidget(),
             buildHeading(
                 heading: "Risk Areas", onPressed: () {}, showViewAll: true),
             buildSpaceWidget(),
-            buildRiskAreaListView(),
+            buildCategoryListView(riskAreaList),
+            // buildSpaceWidget(),
+            // buildHeading(
+            //     heading: "Our Brands", onPressed: () {}, showViewAll: false),
+            // buildSpaceWidget(),
+            // buildBrandListView(),
             buildSpaceWidget(),
-            buildHeading(
-                heading: "Our Brands", onPressed: () {}, showViewAll: false),
-            buildSpaceWidget(),
-            buildBrandListView(),
-            buildSpaceWidget(),
-            buildHeading(
-                heading: "My Dashboard", onPressed: () {}, showViewAll: false),
-            buildSpaceWidget(),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 23.0),
+            activeScreeningList.isNotEmpty?Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
               child: ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(12)),
-                child: Image.asset(Assets.imageCovid),
+                // child: Image.asset(Assets.imageCovid),
+                child: Image.network(activeScreeningList[0].image),
               ),
-            ),
+            ):Container(),
             buildSpaceWidget(),
             buildHeading(
-                heading: "Recommended Packages",
-                onPressed: () {},
-                showViewAll: true),
+                heading: "Categories", onPressed: () {}, showViewAll: true),
             buildSpaceWidget(),
-            buildRecommendedTestListView(),
+            buildCategoryListView(categoryList),
+            // buildSpaceWidget(),
+            // buildHeading(
+            //     heading: "Recommended Packages",
+            //     onPressed: () {},
+            //     showViewAll: true),
+            // buildSpaceWidget(),
+            // buildRecommendedTestListView(),
+            // buildSpaceWidget(),
+            activeScreeningList.length>1?Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+              child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(12)),
+                // child: Image.asset(Assets.imageCovid),
+                child: Image.network(activeScreeningList[1].image),
+              ),
+            ):Container(),
             buildSpaceWidget(),
+
             buildHeading(
                 heading: "Popular Tests", onPressed: () {}, showViewAll: true),
             buildSpaceWidget(),
-            buildPopularTestListView(),
-            buildSpaceWidget(),
-            buildSpaceWidget(),
-            buildSpaceWidget(),
+          buildPackages(popularPackageList),
+            SizedBox(height: 80,),
           ],
         ),
       ),
     );
   }
 
-  SizedBox buildPackages() {
+  SizedBox buildPackages(List<Latest> packageList) {
     return SizedBox(
       height: 200,
       child: ListView.builder(
-          itemCount: latestPackageList.length,
+          itemCount: packageList.length,physics: BouncingScrollPhysics(),
           scrollDirection: Axis.horizontal,
           itemBuilder: (context, index) {
             return GestureDetector(
@@ -245,10 +425,10 @@ class _DashboardScreenState extends State<DashboardScreen> with Header {
               child: Center(
                 child: Container(
                   margin: EdgeInsets.only(
-                    left: index == 0 ? 23 : 15,
+                    left: index == 0 ? 12 : 0,right: 10
                   ),
                   decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(30)),
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
                     boxShadow: [
                       BoxShadow(
                           blurRadius: 4,
@@ -257,33 +437,142 @@ class _DashboardScreenState extends State<DashboardScreen> with Header {
                     ],
                     color: Colors.white,
                   ),
-                  height: 189.0,
-                  width: 180,
-                  child: Column(
+                  height: 196.0,
+                  width: 175,
+                  child: Stack(
                     children: [
-                      SizedBox(
-                        height: 150,
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: ClipRRect(
-                            child: Image.network(
-                              latestPackageList[index].imageDir,
-                              scale: 7,
-                            ),
-                            borderRadius: BorderRadius.all(Radius.circular(12)),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12.0,vertical: 12),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                          Text(
+                            packageList[index].product,
+                              style: FlutterFlowTheme.of(context).bodyText1.override(
+                                fontFamily: 'Titillium Web',
+                                color: Colors.black,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w700,
+                              ),maxLines: 2,overflow: TextOverflow.ellipsis,
                           ),
+                          SizedBox(height: 8,),
+                          Row(
+                            children: [
+                              Text(
+                              "Includes: ",
+                                style: FlutterFlowTheme.of(context).bodyText1.override(
+                            fontFamily: 'Titillium Web',
+                            color: AppColors.backgroundColor,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w400,
+                          ),
+                              ),
+                              Text(
+                              "${packageList[index].numberOfTestsInPackage} Tests",
+                                style: FlutterFlowTheme.of(context).bodyText1.override(
+                            fontFamily: 'Titillium Web',
+                            color: Colors.black,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w400,
+                          ),
+                              ),
+
+                            ],
+                          ),
+                            SizedBox(height: 6,),
+                        Text(
+                          "+ know More ",
+                          style: FlutterFlowTheme.of(context).bodyText1.override(
+                            fontFamily: 'Titillium Web',
+                            color: AppColors.backgroundColor,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          ),),
+                            SizedBox(height: 5,),
+                            Row(
+                              children: [
+                                Text(
+                                  "\u20B9${packageList[index].price}",
+                                  style: FlutterFlowTheme.of(context).bodyText1.override(
+                                    fontFamily: 'Titillium Web',
+                                    color: AppColors.priceColor,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                SizedBox(width: 8,),
+                                Text(
+                                  packageList[index].listPrice,
+                                  style: FlutterFlowTheme.of(context).bodyText1.copyWith(
+                                    fontFamily: 'Titillium Web',
+                                    color: AppColors.disabledColor,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,decoration: TextDecoration.lineThrough,decorationColor: Colors.red
+                                  ),
+                                ),
+
+
+
+                              ],
+                            ),
+
+                          ],
                         ),
                       ),
-                      Text(
-                        latestPackageList[index].product,
-                        textAlign: TextAlign.center,
-                        style: FlutterFlowTheme.of(context).bodyText1.override(
-                              fontFamily: 'Titillium Web',
-                              color: Colors.black,
-                              fontSize: 17,
-                              fontWeight: FontWeight.w700,
-                            ),
-                      ),
+                      Positioned(bottom: 0,left: 0,right: 0,
+                          child: Column(
+                            children: [
+                              DottedBorder(
+                                  child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Text(
+                                  "EXCLUSIVE OFFER",
+                                  style: FlutterFlowTheme.of(context).bodyText1.override(
+                                    fontFamily: 'Titillium Web',
+                                    color: Colors.black,
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      "USE CODE ",
+                                      textAlign: TextAlign.center,
+                                      style: FlutterFlowTheme.of(context).bodyText1.override(
+                                        fontFamily: 'Titillium Web',
+                                        color: Colors.black,
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.w300,
+                                      ),
+                                    ),
+                                    Text(
+                                      "FIRST70",
+                                      style: FlutterFlowTheme.of(context).bodyText1.override(
+                                        fontFamily: 'Titillium Web',
+                                        color: AppColors.backgroundColor,
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],),color: AppColors.buttonColor,),
+                              Row(
+                                children: [
+                                  Expanded(child: Container(
+                                    decoration: BoxDecoration(color: AppColors.buttonColor,borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10),bottomRight: Radius.circular(10))),child: Padding(
+                                    padding: const EdgeInsets.all(9.0),
+                                    child: Center(child: Text("Book Now",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600),)),
+                                  ),)),
+                                ],
+                              )
+
+
+                            ],
+                          ))
                     ],
                   ),
                 ),
@@ -293,21 +582,21 @@ class _DashboardScreenState extends State<DashboardScreen> with Header {
     );
   }
 
-  SizedBox buildRiskAreaListView() {
+  SizedBox buildCategoryListView(List<CategoryList> categoryList) {
     return SizedBox(
-      height: 150,
+      height: 125,
       child: ListView.builder(
-          itemCount: riskAreaList.length,
+          itemCount: categoryList.length,physics: BouncingScrollPhysics(),
           scrollDirection: Axis.horizontal,
           itemBuilder: (context, index) {
             return Center(
               child: Container(
                 margin: EdgeInsets.only(
-                  left: index == 0 ? 23 : 15,
+                  left: index == 0 ? 12 : 0,right: 10
                 ),
-                padding: EdgeInsets.all(20),
+                padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(30)),
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
                   boxShadow: [
                     BoxShadow(
                         blurRadius: 4,
@@ -316,21 +605,22 @@ class _DashboardScreenState extends State<DashboardScreen> with Header {
                   ],
                   color: Colors.white,
                 ),
-                height: 126.0,
-                width: 116,
+                height: 100,
+                width: 100,
                 child: Center(
                     child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     SizedBox(
-                        height: 60,
-                        width: 60,
-                        child: Image.network(riskAreaList[index].imageDir)),
+                        height: 45,
+                        width: 45,
+                        child: Image.network(categoryList[index].imageDir)),
                     const SizedBox(
                       height: 5,
                     ),
                     Text(
-                      riskAreaList[index].category,
+                      categoryList[index].category,
+                      textAlign: TextAlign.center,
                       style: TextStyle(color: Color(0xFF727272)),
                     )
                   ],
