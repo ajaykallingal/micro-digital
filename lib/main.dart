@@ -72,8 +72,8 @@ class _MyAppState extends State<MyApp> {
       darkTheme: ThemeData(
           brightness: Brightness.dark,
           visualDensity: VisualDensity.adaptivePlatformDensity),
-      themeMode: _themeMode,
-      initialRoute: '/',
+      themeMode: ThemeMode.light,
+      initialRoute: '/dashboard',
       onGenerateRoute: RouteGenerator.generateRoute,
     );
   }

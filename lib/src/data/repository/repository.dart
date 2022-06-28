@@ -4,6 +4,7 @@ import 'package:micro_digital/src/data/provider/categories_api_provider.dart';
 import 'package:micro_digital/src/data/provider/list_my_profile_provider.dart';
 import 'package:micro_digital/src/data/provider/master_provider.dart';
 import 'package:micro_digital/src/data/provider/my_booking_provider.dart';
+import 'package:micro_digital/src/data/provider/screening_provider.dart';
 import 'package:micro_digital/src/data/provider/search_provider.dart';
 
 import '../provider/auth_api_provider.dart';
@@ -18,6 +19,8 @@ class Repository {
   final authApiProvider = AuthApiProvider();
   final categoriesApiProvider = CategoriesApiProvider();
   final listMyProfileApiProvider = ListMyProfileApiProvider();
+  final screeningApiProvider = ScreeningApiProvider();
+
 
   /// auth api provider
 
@@ -25,7 +28,8 @@ class Repository {
   // Future<StateModel> getOtp(phoneNo,signature) => authApiProvider.getOtp(phoneNo,signature);
 
   ///master api provider
-  Future<StateModel> getDashboardData() => masterApiProvider.getDashboardData();
+  Future<StateModel> getDashboardData() =>
+      masterApiProvider.getDashboardData();
 
   Future<StateModel> singlePackageDetails(request) =>
       masterApiProvider.singlePackageDetails(request);
@@ -35,7 +39,9 @@ class Repository {
 
   ///cart api provider
 
-  Future<StateModel> addToCart(request) => cartApiProvider.addToCart(request);
+  Future<StateModel> addToCart(request) =>
+      cartApiProvider.addToCart(request);
+
 
   ///booking api provider
   Future<StateModel> getBookingList(request) =>
@@ -48,13 +54,17 @@ class Repository {
   Future<StateModel> searchPackage(request) =>
       searchApiProvider.searchPackage(request);
 
-  /// Auth with phone
+
+  ///auth api provider
   Future<StateModel> createAccountWithPhoneNo(request) =>
       authApiProvider.createAccountWithPhoneNo(request);
 
-  Future<StateModel> getOtp(String phoneNo) => authApiProvider.getOtp(phoneNo);
+  Future<StateModel> getOtp(String phoneNo) =>
+      authApiProvider.getOtp(phoneNo);
 
-  /// category provider
+  ///screening api provider
+  Future<StateModel> screeningRequest(request) =>
+      screeningApiProvider.screeningRequest(request);
 
   Future<StateModel> categoriesRequest(request) =>
       categoriesApiProvider.categoriesRequest(request);

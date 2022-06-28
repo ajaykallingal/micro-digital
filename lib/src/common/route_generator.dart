@@ -11,6 +11,7 @@ import 'package:micro_digital/src/ui/risk_areas/risk_area_category_detailed_list
 import 'package:micro_digital/src/ui/risk_areas/risk_area_detailed_view_arguments.dart';
 import 'package:micro_digital/src/ui/risk_areas/risk_areas_category.dart';
 import 'package:micro_digital/src/ui/select_member/select_member_page.dart';
+import 'package:micro_digital/src/ui/screening/screening_screen.dart';
 import 'package:micro_digital/src/ui/test_details/test_details_widget.dart';
 
 import '../ui/categories/components/categories_detailed_page_arguments.dart';
@@ -45,15 +46,17 @@ class RouteGenerator {
   static const categoriesViewPge = '/category_view';
   static const categoriesDetailedViewPge = '/category_detailed_view';
   static const addMemberPage = '/add_member';
+  static const screeningScreenPage = '/screeningDetails';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     final args = settings.arguments;
     switch (settings.name) {
-      case initialPage:
-      // return MaterialPageRoute(
-      //     builder: (_) => const HomeNavigation(
-      //           index: 0,
-      //         ));
+      // case initialPage:
+      // if (args is HomeNavigationArgs) {
+      //   return MaterialPageRoute(builder: (_) => HomeNavigation(args: args,));
+      // } else {
+      //   return _errorRoute();
+      // }
       case splashPage:
         return MaterialPageRoute(builder: (_) => const SplashScreen());
       // case dashboardPage:
@@ -117,6 +120,9 @@ class RouteGenerator {
       //   return MaterialPageRoute(builder: (_) => CartScreen());
       case testDetailPage:
         return MaterialPageRoute(builder: (_) => TestDetailsWidget());
+      case screeningScreenPage:
+        final arguments = args as String;
+        return MaterialPageRoute(builder: (_) => ScreeningScreen(screeningType: arguments,));
       case bookingDetailPage:
         return MaterialPageRoute(builder: (_) => OrderdetailsWidget());
       default:

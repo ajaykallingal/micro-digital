@@ -235,22 +235,22 @@ double screenWidth(BuildContext context, {double dividedBy = 1}) {
 }
 
 ///common toast
-// void showToast(String msg) {
-//   Fluttertoast.showToast(
-//     msg: msg,
-//     toastLength: Toast.LENGTH_SHORT,
-//     gravity: ToastGravity.BOTTOM,
-//   );
-// }
-//
-// ///common toast
-// void showToastLong(String msg) {
-//   Fluttertoast.showToast(
-//     msg: msg,
-//     toastLength: Toast.LENGTH_LONG,
-//     gravity: ToastGravity.BOTTOM,
-//   );
-// }
+void showToast(String msg) {
+  Fluttertoast.showToast(
+    msg: msg,
+    toastLength: Toast.LENGTH_SHORT,
+    gravity: ToastGravity.BOTTOM,
+  );
+}
+
+///common toast
+void showToastLong(String msg) {
+  Fluttertoast.showToast(
+    msg: msg,
+    toastLength: Toast.LENGTH_LONG,
+    gravity: ToastGravity.BOTTOM,
+  );
+}
 
 // void showToastConnection(String msg) {
 //   Fluttertoast.showToast(
@@ -291,10 +291,10 @@ class MoneyFormat {
 }
 
 ///common toast
-void showToast(String msg) {
-  Fluttertoast.showToast(
-    msg: msg,
-    toastLength: Toast.LENGTH_SHORT,
-    gravity: ToastGravity.BOTTOM,
-  );
-}
+// void showToast(String msg) {
+//   Fluttertoast.showToast(
+//     msg: msg,
+//     toastLength: Toast.LENGTH_SHORT,
+//     gravity: ToastGravity.BOTTOM,
+//   );
+// }

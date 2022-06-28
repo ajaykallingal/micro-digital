@@ -7,18 +7,20 @@ import 'package:dio/dio.dart';
 import 'package:micro_digital/src/constants/urls.dart';
 import 'package:micro_digital/src/data/model/auth/auth_request.dart';
 import 'package:micro_digital/src/data/model/my_booking/my_booking_request.dart';
+import 'package:micro_digital/src/data/model/screening/screening_request.dart';
 import 'package:micro_digital/src/data/model/search/search_request.dart';
+
 
 class ApiClient {
   ApiClient() {
     initClient();
   }
 
-  late Dio dio;
+   late Dio dio;
 
-  late BaseOptions _baseOptions;
+   late BaseOptions _baseOptions;
 
-  String username = 'nadir@communiqo.com';
+  String username= 'nadir@communiqo.com';
   // live
   String password = 'H626881X1i9oCymb95151pa14Mi8395X';
   // dev
@@ -26,9 +28,10 @@ class ApiClient {
   //
   /// client production
   initClient() async {
-    String basicAuth =
-        'Basic ' + base64Encode(utf8.encode('$username:$password'));
-    _baseOptions = BaseOptions(
+
+    String basicAuth = 'Basic ' +
+        base64Encode(utf8.encode('$username:$password'));
+    _baseOptions =  BaseOptions(
         baseUrl: Urls.baseUrlDev,
         connectTimeout: 30000,
         receiveTimeout: 1000000,
@@ -60,6 +63,9 @@ class ApiClient {
       },
     ));
   }
+
+
+
 
   /// Master provider
   ///
@@ -106,8 +112,8 @@ class ApiClient {
   Future<Response>? getOtp(phoneNo) {
     try {
       return dio.get(Urls.getOtp + phoneNo);
-    } on DioError catch (ex) {
-      if (ex.type == DioErrorType.connectTimeout) {
+    }on DioError  catch (ex) {
+      if(ex.type == DioErrorType.connectTimeout){
         throw Exception("Connection  Timeout Exception");
       }
       throw Exception(ex.message);
@@ -120,7 +126,17 @@ class ApiClient {
     return dio.post(Urls.createAccount, data: request);
   }
 
-  ///categories
+
+  ///screening request
+  Future<Response> screeningRequest(ScreeningRequest request) {
+    return dio.post(Urls.screeningRequest,data: request);
+  }
+
+
+
+
+
+
 
   Future<Response> categoriesRequest(request) {
     return dio.post(Urls.categories, data: request);
