@@ -123,7 +123,10 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
                   AuthUserRequest(phoneNo: widget.otpScreenArguments.phoneNo));
           ObjectFactory().prefs.setIsLoggedIn(true);
         });
-      } else {}
+      } else {
+        Navigator.pushNamedAndRemoveUntil(
+            context, "/dashboard", (route) => false);
+      }
     });
 
     super.didChangeDependencies();
@@ -387,6 +390,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
                           if (otpFromInput == widget.otpScreenArguments.otp ||
                               otpFromInput == otpFromApi) {
                             if (widget.otpScreenArguments.newUser) {
+                              ObjectFactory().prefs.setIsLoggedIn(true);
                               Navigator.pushNamedAndRemoveUntil(
                                   context, "/dashboard", (route) => false);
                             } else {

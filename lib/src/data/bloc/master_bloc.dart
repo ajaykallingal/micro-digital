@@ -1,20 +1,21 @@
 import 'dart:async';
 
 import 'package:micro_digital/src/constants/strings.dart';
+import 'package:micro_digital/src/data/model/categories/categories_response.dart';
 import 'package:micro_digital/src/data/model/common/state_model.dart';
 import 'package:micro_digital/src/data/model/dashboard/dashboard_response.dart';
-import 'package:micro_digital/src/data/model/master/get_company_url/get_company_url_response.dart';
+import 'package:micro_digital/src/data/model/list_my_profile/list_my_profile_response.dart';
 import 'package:micro_digital/src/data/model/master/package/single_package_response.dart';
 import 'package:micro_digital/src/data/model/master/test/single_test_details.dart';
 import 'package:micro_digital/src/data/shared_pref/object_factory.dart';
 
+enum MasterBlocAction { fetch, clearData }
 
+enum CounterAction { increment, decrement, reset, fetch }
 
-enum MasterBlocAction{fetch,clearData}
-enum CounterAction{increment,decrement,reset,fetch}
-enum ThemeAction{off,on}
+enum ThemeAction { off, on }
+
 class MasterBloc {
-
   bool _isDisposed = false;
 
   ///event stream
@@ -40,27 +41,44 @@ class MasterBloc {
   /// dashboard
   final _getDashboardSC = StreamController<DashboardResponse>.broadcast();
   StreamSink<DashboardResponse> get getDashboardSCSink => _getDashboardSC.sink;
-  Stream<DashboardResponse> get getDashboardSCListener => _getDashboardSC.stream;
+  Stream<DashboardResponse> get getDashboardSCListener =>
+      _getDashboardSC.stream;
 
   /// package
-  final _singlePackageDetailsSC = StreamController<SinglePackageResponse>.broadcast();
-  StreamSink<SinglePackageResponse> get singlePackageDetailsSCSink => _singlePackageDetailsSC.sink;
-  Stream<SinglePackageResponse> get singlePackageDetailsSCListener => _singlePackageDetailsSC.stream;
+  final _singlePackageDetailsSC =
+      StreamController<SinglePackageResponse>.broadcast();
+  StreamSink<SinglePackageResponse> get singlePackageDetailsSCSink =>
+      _singlePackageDetailsSC.sink;
+  Stream<SinglePackageResponse> get singlePackageDetailsSCListener =>
+      _singlePackageDetailsSC.stream;
 
   /// test
   final _singleTestDetailsSC = StreamController<SingleTestResponse>.broadcast();
-  StreamSink<SingleTestResponse> get singleTestDetailsSCSink => _singleTestDetailsSC.sink;
-  Stream<SingleTestResponse> get singleTestDetailsSCListener => _singleTestDetailsSC.stream;
+  StreamSink<SingleTestResponse> get singleTestDetailsSCSink =>
+      _singleTestDetailsSC.sink;
+  Stream<SingleTestResponse> get singleTestDetailsSCListener =>
+      _singleTestDetailsSC.stream;
 
+  /// categories
+  final _categoriesDetailsSC = StreamController<CategoriesResponse>.broadcast();
+  StreamSink<CategoriesResponse> get categoriesDetailsSCSink =>
+      _categoriesDetailsSC.sink;
+  Stream<CategoriesResponse> get categoriesDetailsSCListener =>
+      _categoriesDetailsSC.stream;
 
+  /// list my profiles
+  final _listMyProfileSC = StreamController<ListMyProfileResponse>.broadcast();
+  StreamSink<ListMyProfileResponse> get listMyProfileSCSink =>
+      _listMyProfileSC.sink;
+  Stream<ListMyProfileResponse> get listMyProfileSCListener =>
+      _listMyProfileSC.stream;
 
-  MasterBloc(){
+  MasterBloc() {
     eventStream.listen((event) {
-      if(event == MasterBlocAction.fetch){
+      if (event == MasterBlocAction.fetch) {
         themeStatusSink.add(true);
         ObjectFactory().prefs.setDarkMode(true);
-      }
-      else if(event == MasterBlocAction.clearData){
+      } else if (event == MasterBlocAction.clearData) {
         themeStatusSink.add(false);
         ObjectFactory().prefs.setDarkMode(false);
       }
@@ -78,11 +96,9 @@ class MasterBloc {
     if (state is SuccessState) {
       if (!_getDashboardSC.isClosed) {
         getDashboardSCSink.add(state.value as DashboardResponse);
-
       }
     } else if (state is ErrorState) {
       getDashboardSCSink.addError(Strings.SOME_ERROR_OCCURRED);
-
     }
     loadingSink.add(false);
   }
@@ -93,16 +109,15 @@ class MasterBloc {
       return;
     }
     loadingSink.add(true);
-    StateModel? state = await ObjectFactory().repository.singlePackageDetails(request);
+    StateModel? state =
+        await ObjectFactory().repository.singlePackageDetails(request);
 
     if (state is SuccessState) {
       if (!_singlePackageDetailsSC.isClosed) {
         singlePackageDetailsSCSink.add(state.value as SinglePackageResponse);
-
       }
     } else if (state is ErrorState) {
       singlePackageDetailsSCSink.addError(Strings.SOME_ERROR_OCCURRED);
-
     }
     loadingSink.add(false);
   }
@@ -113,21 +128,56 @@ class MasterBloc {
       return;
     }
     loadingSink.add(true);
-    StateModel? state = await ObjectFactory().repository.singleTestDetails(request);
+    StateModel? state =
+        await ObjectFactory().repository.singleTestDetails(request);
 
     if (state is SuccessState) {
       if (!_singleTestDetailsSC.isClosed) {
         singleTestDetailsSCSink.add(state.value as SingleTestResponse);
-
       }
     } else if (state is ErrorState) {
       singleTestDetailsSCSink.addError(Strings.SOME_ERROR_OCCURRED);
-
     }
     loadingSink.add(false);
   }
 
+  ///categories
+  categoriesRequest(request) async {
+    if (_isDisposed) {
+      return;
+    }
+    loadingSink.add(true);
+    StateModel? state =
+        await ObjectFactory().repository.categoriesRequest(request);
 
+    if (state is SuccessState) {
+      if (!_categoriesDetailsSC.isClosed) {
+        categoriesDetailsSCSink.add(state.value as CategoriesResponse);
+      }
+    } else if (state is ErrorState) {
+      categoriesDetailsSCSink.addError(Strings.SOME_ERROR_OCCURRED);
+    }
+    loadingSink.add(false);
+  }
+
+  /// Profiles
+
+  listMyProfile() async {
+    if (_isDisposed) {
+      return;
+    }
+    loadingSink.add(true);
+    StateModel? state = await ObjectFactory().repository.listMyProfile();
+
+    if (state is SuccessState) {
+      if (!_listMyProfileSC.isClosed) {
+        listMyProfileSCSink.add(state.value as ListMyProfileResponse);
+      }
+    } else if (state is ErrorState) {
+      listMyProfileSCSink.addError(Strings.SOME_ERROR_OCCURRED);
+    }
+    loadingSink.add(false);
+  }
 
   ///controllers disposed here
   void dispose() {
@@ -138,5 +188,7 @@ class MasterBloc {
     _getDashboardSC.close();
     _singleTestDetailsSC.close();
     _singlePackageDetailsSC.close();
+    _categoriesDetailsSC.close();
+    _listMyProfileSC.close();
   }
 }

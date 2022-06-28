@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 Color background = Color(0xfff3f2ee);
 Color darkShadow = Color(0xffcfceca);
 Color lightShadow = Color(0xffffffff);
+Color mainBlueShade = Color(0xFF26ABE2);
 
 Color textColor = Color(0xff001f3f);
 

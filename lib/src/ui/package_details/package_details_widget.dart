@@ -1,4 +1,7 @@
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:micro_digital/src/common/route_generator.dart';
 import 'package:micro_digital/src/data/bloc/cart_bloc.dart';
 import 'package:micro_digital/src/data/bloc/master_bloc.dart';
@@ -6,12 +9,6 @@ import 'package:micro_digital/src/data/model/cart/add_to_request.dart';
 import 'package:micro_digital/src/data/model/master/package/single_package_response.dart';
 
 import '../flutter_flow/flutter_flow_theme.dart';
-import '../flutter_flow/flutter_flow_util.dart';
-import '../flutter_flow/flutter_flow_widgets.dart';
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class PackageDetailsWidget extends StatefulWidget {
   const PackageDetailsWidget({Key? key}) : super(key: key);
@@ -394,11 +391,14 @@ class _PackageDetailsWidgetState extends State<PackageDetailsWidget> {
                                                       children: [
                                                         Padding(
                                                           padding:
-                                                          EdgeInsetsDirectional
-                                                              .fromSTEB(20,
-                                                              0, 20, 0),
+                                                              EdgeInsetsDirectional
+                                                                  .fromSTEB(20,
+                                                                      0, 20, 0),
                                                           child: Html(
-                                                              data: singlePackageResponse!.basicDetails[0].fullDescription),
+                                                              data: singlePackageResponse!
+                                                                  .basicDetails[
+                                                                      0]
+                                                                  .fullDescription),
                                                         ),
                                                         Padding(
                                                           padding:
@@ -419,7 +419,6 @@ class _PackageDetailsWidgetState extends State<PackageDetailsWidget> {
                                                                 ),
                                                           ),
                                                         ),
-
                                                         Padding(
                                                           padding:
                                                               EdgeInsetsDirectional
@@ -631,7 +630,12 @@ class _PackageDetailsWidgetState extends State<PackageDetailsWidget> {
                             ),
                             color: Color(0x004B39EF),
                             onPressed: () {
-                              cartBloc.addToCart(request: AddToCartRequest(productId: "494",userId: "134",productPrice: "1500.00"));
+                              cartBloc.addToCart(
+                                  request: AddToCartRequest(
+                                      productId: "494",
+                                      userId: "134",
+                                      productPrice: "1500.00"));
+                              Navigator.pushNamed(context, '/select_Member');
                             },
                             child: Text(
                               "Add to cart",

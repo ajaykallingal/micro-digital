@@ -3,8 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:micro_digital/app_state.dart';
 import 'package:micro_digital/src/common/route_generator.dart';
+import 'package:micro_digital/src/data/shared_pref/object_factory.dart';
 import 'package:micro_digital/src/ui/flutter_flow/flutter_flow_theme.dart';
 import 'package:micro_digital/src/ui/flutter_flow/internationalization.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,6 +24,12 @@ void main() async {
       statusBarColor: Colors.transparent,
       statusBarIconBrightness: Brightness.light,
       statusBarBrightness: Brightness.dark));
+
+  final SharedPreferences sharedPreferences =
+      await SharedPreferences.getInstance();
+  ObjectFactory().setPrefs(sharedPreferences);
+
+  /// setting pref
 
   runApp(MyApp());
 }
