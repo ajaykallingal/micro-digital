@@ -115,9 +115,9 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
     // });
 
     authBloc.getOtpSCListener.listen((event) {
-      if (event.authUserResponse!.newUser) {
+      if (event.newUser) {
         setState(() {
-          otpFromApi = event.authUserResponse!.otp;
+          otpFromApi = event.otp;
           authBloc.createAccountWithPhoneNo(
               request:
                   AuthUserRequest(phoneNo: widget.otpScreenArguments.phoneNo));

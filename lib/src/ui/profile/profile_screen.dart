@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:micro_digital/src/common/styles.dart';
 import 'package:micro_digital/src/constants/assets.dart';
 import 'package:micro_digital/src/constants/colors.dart';
+import 'package:micro_digital/src/data/bloc/profile_bloc.dart';
+import 'package:micro_digital/src/data/model/profile/create_profile/create_profile_request.dart';
+import 'package:micro_digital/src/data/model/profile/list_my_profile/list_my_profile_response.dart';
+import 'package:micro_digital/src/data/shared_pref/object_factory.dart';
 import 'package:micro_digital/src/data/utils/screen_size/size_config.dart';
 import 'package:micro_digital/src/ui/widgets/header.dart';
 
@@ -27,6 +31,28 @@ class _ProfileScreenState extends State<ProfileScreen> with Header {
   List<String> featureIconList = [];
   late double _height;
   late double _width;
+  TextEditingController nameController = TextEditingController();
+  TextEditingController phoneNumberController = TextEditingController();
+  final profileBloc = ProfileBloc();
+  // ListMyProfileResponse? profileResponse;
+  List<MyProfileList>? myProfileList = List.empty(growable: true);
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    profileBloc.createProfileSCListener.listen((event) {
+      setState(() {
+        myProfileList = event.myProfileList;
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // Add code after super
+    profileBloc.listMyProfile(203);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -227,6 +253,10 @@ class _ProfileScreenState extends State<ProfileScreen> with Header {
                                                   borderRadius:
                                                       BorderRadius.circular(10),
                                                 ),
+                                                label: Text(ObjectFactory()
+                                                    .prefs
+                                                    .getUserPhoneNumber()
+                                                    .toString()),
                                               ),
                                             ),
                                           ),
@@ -242,7 +272,25 @@ class _ProfileScreenState extends State<ProfileScreen> with Header {
                               ),
                               Align(
                                 child: ElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    profileBloc.createProfile(
+                                      request: CreateProfileRequest(
+                                        userId: "203",
+                                        profileType: "p",
+                                        sFirstname: nameController.text,
+                                        sLastname: "lastName",
+                                        sAddress: "Address1",
+                                        sAddress2: "Address2",
+                                        sCity: "city",
+                                        sState: "state",
+                                        sCountry: "country",
+                                        sZipcode: "zipcode",
+                                        sPhone: phoneNumberController.text,
+                                        sAddressType: "address type",
+                                        profileName: "main",
+                                      ),
+                                    );
+                                  },
                                   child: Text(
                                     "Submit",
                                     style: FlutterFlowTheme.of(context)

@@ -34,7 +34,7 @@ class _LoginWidgetState extends State<LoginWidget> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     authBloc.getOtpSCListener.listen((event) {
-      if (clickedOneTime) if (event.authUserResponse!.newUser) {
+      if (clickedOneTime) if (event.newUser) {
         setState(() {
           clickedOneTime = false;
           loading = false;
@@ -42,8 +42,8 @@ class _LoginWidgetState extends State<LoginWidget> {
         Navigator.pushNamed(context, "/otp",
             arguments: OtpScreenArguments(
               phoneNo: _textEditingController.text,
-              otp: event.authUserResponse!.otp,
-              newUser: event.authUserResponse!.newUser,
+              otp: event.otp,
+              newUser: event.newUser,
             ));
       } else {
         setState(() {

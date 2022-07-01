@@ -7,6 +7,7 @@ class Prefs {
   JsonCodec codec = new JsonCodec();
   SharedPreferences? _sharedPreferences;
 
+  static const String? _PHONE_NUMBER = "phone_number";
   static const String? _AUTH_TOKEN = "auth_token";
   static const String? _USER_ID = "user_id";
   static const String? _LAYOUT_ID = "layout_id";
@@ -20,15 +21,19 @@ class Prefs {
   static const String? _IS_DARK_MODE = "is_dark_mode";
   static const String? _IS_BASE_FETCHED = "is_base_url_fetched";
 
-
-
-
-
   Prefs();
 
   set sharedPreferences(SharedPreferences value) {
     _sharedPreferences = value;
   }
+
+  ///saving  the phone number as a String
+  void setUserPhoneNumber(String string, {String? phoneNumber}) {
+    _sharedPreferences!.setString(_PHONE_NUMBER!, phoneNumber!);
+  }
+
+  ///get method  for phone number
+  String? getUserPhoneNumber() => _sharedPreferences!.getString(_PHONE_NUMBER!);
 
   ///saving  the auth token as a String
   void setAuthToken({String? token}) {
@@ -123,19 +128,17 @@ class Prefs {
   }
 
   ///checking that is logged in or not
-  bool isBaseUrlFetched() => _sharedPreferences!.getBool(_IS_BASE_FETCHED!) != null &&
-          _sharedPreferences!.getBool(_IS_BASE_FETCHED!) == true
-      ? true
-      : false;
-
-
+  bool isBaseUrlFetched() =>
+      _sharedPreferences!.getBool(_IS_BASE_FETCHED!) != null &&
+              _sharedPreferences!.getBool(_IS_BASE_FETCHED!) == true
+          ? true
+          : false;
 
   /// for clearing the data in preference
   void clearPrefs() async {
     final pref = await SharedPreferences.getInstance();
     await pref.clear();
   }
-
 
   // ///  save user data
   // void saveUserData(LoginWithEmailResponse result) {
@@ -150,13 +153,5 @@ class Prefs {
   //   var result = new LoginWithEmailResponse.fromJson(resultMap!);
   //   return result;
   // }
-
-
-
-
-
-
-
-
 
 }

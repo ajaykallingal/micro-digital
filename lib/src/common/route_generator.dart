@@ -6,17 +6,21 @@ import 'package:micro_digital/src/ui/categories/categories_view_screen.dart';
 import 'package:micro_digital/src/ui/login/otp_screen_argument.dart';
 import 'package:micro_digital/src/ui/login/otp_verification_screen.dart';
 import 'package:micro_digital/src/ui/orderdetails/orderdetails_widget.dart';
+import 'package:micro_digital/src/ui/package_details/components/select_member_screen_arguments.dart';
 import 'package:micro_digital/src/ui/package_details/package_details_widget.dart';
 import 'package:micro_digital/src/ui/risk_areas/risk_area_category_detailed_list_view.dart';
 import 'package:micro_digital/src/ui/risk_areas/risk_area_detailed_view_arguments.dart';
 import 'package:micro_digital/src/ui/risk_areas/risk_areas_category.dart';
-import 'package:micro_digital/src/ui/select_member/select_member_page.dart';
 import 'package:micro_digital/src/ui/screening/screening_screen.dart';
+import 'package:micro_digital/src/ui/select_member/select_member_page.dart';
 import 'package:micro_digital/src/ui/test_details/test_details_widget.dart';
 
+import '../ui/cart/cart_screen.dart';
 import '../ui/categories/components/categories_detailed_page_arguments.dart';
+import '../ui/checkout/checkout_widget.dart';
 import '../ui/home_navigation/home_navigation_screen.dart';
 import '../ui/login/login_widget.dart';
+import '../ui/profile/profile_screen.dart';
 import '../ui/splash/splash_screen.dart';
 
 class RouteGenerator {
@@ -53,7 +57,7 @@ class RouteGenerator {
     switch (settings.name) {
       // case initialPage:
       // if (args is HomeNavigationArgs) {
-      //   return MaterialPageRoute(builder: (_) => HomeNavigation(args: args,));
+      //   return MaterialPageRoute(builder: (_) => HomeNavigation(args: args, index: null,));
       // } else {
       //   return _errorRoute();
       // }
@@ -76,13 +80,17 @@ class RouteGenerator {
             builder: (_) => const HomeNavigation(
                   index: 0,
                 ));
-      // case profilePage:
-      //   return MaterialPageRoute(builder: (_) => ProfileScreen());
+      case profilePage:
+        return MaterialPageRoute(builder: (_) => ProfileScreen());
       case packageDetailsPage:
         return MaterialPageRoute(builder: (_) => PackageDetailsWidget());
 
       case selectMemberPage:
-        return MaterialPageRoute(builder: (_) => SelectMemberPage());
+        final selectMemberScreenArguments = args as SelectMemberScreenArguments;
+        return MaterialPageRoute(
+            builder: (_) => SelectMemberPage(
+                  selectMemberScreenArguments: selectMemberScreenArguments,
+                ));
 
       case riskAreasCategoriesPage:
         return MaterialPageRoute(builder: (_) => RiskAreasCategoryPage());
@@ -114,15 +122,18 @@ class RouteGenerator {
       //   return MaterialPageRoute(builder: (_) => PackageCategoryScreen());
       // case testInfoPage:
       //   return MaterialPageRoute(builder: (_) => TestInfoScreen());
-      // case checkoutPage:
-      //   return MaterialPageRoute(builder: (_) => CheckoutScreen());
-      // case cartPage:
-      //   return MaterialPageRoute(builder: (_) => CartScreen());
+      case checkoutPage:
+        return MaterialPageRoute(builder: (_) => CheckoutWidget());
+      case cartPage:
+        return MaterialPageRoute(builder: (_) => CartScreen());
       case testDetailPage:
         return MaterialPageRoute(builder: (_) => TestDetailsWidget());
       case screeningScreenPage:
         final arguments = args as String;
-        return MaterialPageRoute(builder: (_) => ScreeningScreen(screeningType: arguments,));
+        return MaterialPageRoute(
+            builder: (_) => ScreeningScreen(
+                  screeningType: arguments,
+                ));
       case bookingDetailPage:
         return MaterialPageRoute(builder: (_) => OrderdetailsWidget());
       default:

@@ -7,6 +7,7 @@ import 'package:micro_digital/src/data/bloc/cart_bloc.dart';
 import 'package:micro_digital/src/data/bloc/master_bloc.dart';
 import 'package:micro_digital/src/data/model/cart/add_to_request.dart';
 import 'package:micro_digital/src/data/model/master/package/single_package_response.dart';
+import 'package:micro_digital/src/ui/package_details/components/select_member_screen_arguments.dart';
 
 import '../flutter_flow/flutter_flow_theme.dart';
 
@@ -632,10 +633,19 @@ class _PackageDetailsWidgetState extends State<PackageDetailsWidget> {
                             onPressed: () {
                               cartBloc.addToCart(
                                   request: AddToCartRequest(
-                                      productId: "494",
-                                      userId: "134",
-                                      productPrice: "1500.00"));
-                              Navigator.pushNamed(context, '/select_Member');
+                                      productId: singlePackageResponse!
+                                          .basicDetails[0].productId,
+                                      userId: "203",
+                                      productPrice: singlePackageResponse!
+                                          .basicDetails[0].price));
+                              Navigator.pushNamed(context, '/select_Member',
+                                  arguments: SelectMemberScreenArguments(
+                                    productName: singlePackageResponse!
+                                        .basicDetails[0].product,
+                                    totalTests: singlePackageResponse!
+                                        .basicDetails[0].numberOfTestsInPackage
+                                        .toString(),
+                                  ));
                             },
                             child: Text(
                               "Add to cart",

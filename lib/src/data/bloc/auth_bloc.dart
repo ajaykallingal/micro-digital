@@ -1,7 +1,6 @@
-
-
-
 import 'dart:async';
+
+import 'package:micro_digital/src/data/model/auth/auth_request_response.dart';
 
 import '../../constants/strings.dart';
 import '../model/auth/auth_response.dart';
@@ -9,7 +8,6 @@ import '../model/common/state_model.dart';
 import '../shared_pref/object_factory.dart';
 
 class AuthBloc {
-
   bool _isDisposed = false;
 
   /// stream for loader
@@ -18,17 +16,13 @@ class AuthBloc {
   Stream<bool> get loadingListener => _loadingSC.stream;
 
   /// stream for getting company base url
-  final _otpLoginSC = StreamController<AuthUserResponse>.broadcast();
-  StreamSink<AuthUserResponse> get otpLoginSCSink => _otpLoginSC.sink;
-  Stream<AuthUserResponse> get otpLoginSCListener => _otpLoginSC.stream;
+  final _otpLoginSC = StreamController<AuthUserRequestResponse>.broadcast();
+  StreamSink<AuthUserRequestResponse> get otpLoginSCSink => _otpLoginSC.sink;
+  Stream<AuthUserRequestResponse> get otpLoginSCListener => _otpLoginSC.stream;
 
-
-  final _getOtpSC =  StreamController<AuthUserResponse>.broadcast();
+  final _getOtpSC = StreamController<AuthUserResponse>.broadcast();
   StreamSink<AuthUserResponse> get getOtpSCSink => _getOtpSC.sink;
   Stream<AuthUserResponse> get getOtpSCListener => _getOtpSC.stream;
-
-
-
 
   /// method used for fetching company url using company id
   createAccountWithPhoneNo({required request}) async {
@@ -36,11 +30,12 @@ class AuthBloc {
       return;
     }
     loadingSink.add(true);
-    StateModel? state = await ObjectFactory().repository.createAccountWithPhoneNo(request);
+    StateModel? state =
+        await ObjectFactory().repository.createAccountWithPhoneNo(request);
 
     if (state is SuccessState) {
       if (!_otpLoginSC.isClosed) {
-        otpLoginSCSink.add(state.value as AuthUserResponse);
+        otpLoginSCSink.add(state.value as AuthUserRequestResponse);
       }
     } else if (state is ErrorState) {
       otpLoginSCSink.addError(Strings.SOME_ERROR_OCCURRED);
@@ -64,8 +59,6 @@ class AuthBloc {
     }
     loadingSink.add(false);
   }
-
-
 
   ///controllers disposed here
   void dispose() {

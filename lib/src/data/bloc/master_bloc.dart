@@ -4,7 +4,6 @@ import 'package:micro_digital/src/constants/strings.dart';
 import 'package:micro_digital/src/data/model/categories/categories_response.dart';
 import 'package:micro_digital/src/data/model/common/state_model.dart';
 import 'package:micro_digital/src/data/model/dashboard/dashboard_response.dart';
-import 'package:micro_digital/src/data/model/list_my_profile/list_my_profile_response.dart';
 import 'package:micro_digital/src/data/model/master/package/single_package_response.dart';
 import 'package:micro_digital/src/data/model/master/test/single_test_details.dart';
 import 'package:micro_digital/src/data/shared_pref/object_factory.dart';
@@ -65,13 +64,6 @@ class MasterBloc {
       _categoriesDetailsSC.sink;
   Stream<CategoriesResponse> get categoriesDetailsSCListener =>
       _categoriesDetailsSC.stream;
-
-  /// list my profiles
-  final _listMyProfileSC = StreamController<ListMyProfileResponse>.broadcast();
-  StreamSink<ListMyProfileResponse> get listMyProfileSCSink =>
-      _listMyProfileSC.sink;
-  Stream<ListMyProfileResponse> get listMyProfileSCListener =>
-      _listMyProfileSC.stream;
 
   MasterBloc() {
     eventStream.listen((event) {
@@ -160,25 +152,6 @@ class MasterBloc {
     loadingSink.add(false);
   }
 
-  /// Profiles
-
-  listMyProfile() async {
-    if (_isDisposed) {
-      return;
-    }
-    loadingSink.add(true);
-    StateModel? state = await ObjectFactory().repository.listMyProfile();
-
-    if (state is SuccessState) {
-      if (!_listMyProfileSC.isClosed) {
-        listMyProfileSCSink.add(state.value as ListMyProfileResponse);
-      }
-    } else if (state is ErrorState) {
-      listMyProfileSCSink.addError(Strings.SOME_ERROR_OCCURRED);
-    }
-    loadingSink.add(false);
-  }
-
   ///controllers disposed here
   void dispose() {
     _themeStatusSC.close();
@@ -189,6 +162,5 @@ class MasterBloc {
     _singleTestDetailsSC.close();
     _singlePackageDetailsSC.close();
     _categoriesDetailsSC.close();
-    _listMyProfileSC.close();
   }
 }

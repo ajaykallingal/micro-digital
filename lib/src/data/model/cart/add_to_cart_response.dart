@@ -2,31 +2,34 @@
 //
 //     final addToCartResponse = addToCartResponseFromJson(jsonString);
 
-import 'package:meta/meta.dart';
 import 'dart:convert';
 
-AddToCartResponse addToCartResponseFromJson(String str) => AddToCartResponse.fromJson(json.decode(str));
+AddToCartResponse addToCartResponseFromJson(String str) =>
+    AddToCartResponse.fromJson(json.decode(str));
 
-String addToCartResponseToJson(AddToCartResponse data) => json.encode(data.toJson());
+String addToCartResponseToJson(AddToCartResponse data) =>
+    json.encode(data.toJson());
 
 class AddToCartResponse {
   AddToCartResponse({
-    required this.responseFromCart,
     required this.cartList,
   });
 
-  final String responseFromCart;
-  final List<CartList> cartList;
+  final List<CartList>? cartList;
 
-  factory AddToCartResponse.fromJson(Map<String, dynamic> json) => AddToCartResponse(
-    responseFromCart: json["responseFromCart"],
-    cartList: List<CartList>.from(json["cartList"].map((x) => CartList.fromJson(x))),
-  );
+  factory AddToCartResponse.fromJson(Map<String, dynamic> json) =>
+      AddToCartResponse(
+        cartList: json["cartList"] == null
+            ? null
+            : List<CartList>.from(
+                json["cartList"].map((x) => CartList.fromJson(x))),
+      );
 
   Map<String, dynamic> toJson() => {
-    "responseFromCart": responseFromCart,
-    "cartList": List<dynamic>.from(cartList.map((x) => x.toJson())),
-  };
+        "cartList": cartList == null
+            ? null
+            : List<dynamic>.from(cartList!.map((x) => x.toJson())),
+      };
 }
 
 class CartList {
@@ -47,20 +50,20 @@ class CartList {
   final String timestamp;
 
   factory CartList.fromJson(Map<String, dynamic> json) => CartList(
-    itemId: json["item_id"],
-    productId: json["product_id"],
-    amount: json["amount"],
-    price: json["price"],
-    product: json["product"],
-    timestamp: json["timestamp"],
-  );
+        itemId: json["item_id"] == null ? null : json["item_id"],
+        productId: json["product_id"] == null ? null : json["product_id"],
+        amount: json["amount"] == null ? null : json["amount"],
+        price: json["price"] == null ? null : json["price"],
+        product: json["product"] == null ? null : json["product"],
+        timestamp: json["timestamp"] == null ? null : json["timestamp"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "item_id": itemId,
-    "product_id": productId,
-    "amount": amount,
-    "price": price,
-    "product": product,
-    "timestamp": timestamp,
-  };
+        "item_id": itemId == null ? null : itemId,
+        "product_id": productId == null ? null : productId,
+        "amount": amount == null ? null : amount,
+        "price": price == null ? null : price,
+        "product": product == null ? null : product,
+        "timestamp": timestamp == null ? null : timestamp,
+      };
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:micro_digital/src/data/bloc/profile_bloc.dart';
 
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
@@ -10,8 +11,66 @@ class AddMemberScreen extends StatefulWidget {
   State<AddMemberScreen> createState() => _AddMemberScreenState();
 }
 
-class _AddMemberScreenState extends State<AddMemberScreen> {
+class _AddMemberScreenState extends State<AddMemberScreen>
+    with RestorationMixin {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final profileBloc = ProfileBloc();
+
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController dobController = TextEditingController();
+  String? restorationId = 'main';
+  String dobDropdown = "DOB";
+  final RestorableDateTime _selectedDate =
+      RestorableDateTime(DateTime(2021, 7, 25));
+  late final RestorableRouteFuture<DateTime?> _restorableDatePickerRouteFuture =
+      RestorableRouteFuture<DateTime?>(
+    onComplete: _selectDate,
+    onPresent: (NavigatorState navigator, Object? arguments) {
+      return navigator.restorablePush(
+        _datePickerRoute,
+        arguments: _selectedDate.value.millisecondsSinceEpoch,
+      );
+    },
+  );
+
+  static Route<DateTime> _datePickerRoute(
+    BuildContext context,
+    Object? arguments,
+  ) {
+    return DialogRoute<DateTime>(
+      context: context,
+      builder: (BuildContext context) {
+        return DatePickerDialog(
+          restorationId: 'date_picker_dialog',
+          initialEntryMode: DatePickerEntryMode.calendarOnly,
+          initialDate: DateTime.fromMillisecondsSinceEpoch(arguments! as int),
+          firstDate: DateTime(2021),
+          lastDate: DateTime(2022),
+        );
+      },
+    );
+  }
+
+  void _selectDate(DateTime? newSelectedDate) {
+    if (newSelectedDate != null) {
+      setState(() {
+        _selectedDate.value = newSelectedDate;
+        // Flexible(
+        //   child: Text(
+        //       'Selected: ${_selectedDate.value.day}/${_selectedDate.value.month}/${_selectedDate.value.year}'),
+        // );
+        // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        //   content: Text(
+        //       'Selected: ${_selectedDate.value.day}/${_selectedDate.value.month}/${_selectedDate.value.year}'),
+        // ));
+      });
+    }
+  }
+
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -230,14 +289,32 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                                                 ),
                                           ),
                                           // SizedBox(width: 100),
+
                                           Flexible(
-                                            child: TextButton(
-                                              onPressed: () {},
-                                              child: ImageIcon(
-                                                AssetImage(
-                                                    "assets/icons/calendar 2.png"),
+                                            child: TextField(
+                                              enabled: false,
+                                              decoration: InputDecoration(
+                                                border: InputBorder.none,
+                                                suffixIcon: ImageIcon(
+                                                  AssetImage(
+                                                      "assets/icons/calendar 2.png"),
+                                                ),
                                               ),
+                                              onTap: () {
+                                                _restorableDatePickerRouteFuture
+                                                    .present();
+                                              },
                                             ),
+                                            // TextButton(
+                                            //   onPressed: () {
+                                            //     _restorableDatePickerRouteFuture.present();
+                                            //
+                                            //   },
+                                            //   child: ImageIcon(
+                                            //     AssetImage(
+                                            //         "assets/icons/calendar 2.png"),
+                                            //   ),
+                                            // ),
                                           ),
                                         ],
                                       ),
@@ -259,4 +336,79 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
       ),
     );
   }
+
+  Widget buildDobSelector({
+    required TextEditingController textEditingController,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: GestureDetector(
+        onTapDown: (TapDownDetails details) {
+          FocusManager.instance.primaryFocus?.unfocus();
+          showDatePicker(
+            context: context,
+            initialDate: DateTime.now(),
+            firstDate: DateTime(2015, 8),
+            lastDate: DateTime(2015, 8),
+          );
+          // DatePicker.showDateTimePicker(
+          //   context,
+          //   showTitleActions: true,
+          //   minTime: DateTime(1900, 1, 1),
+          //   maxTime: DateTime.now(),
+          //   theme: const DatePickerTheme(
+          //     // headerColor: AppColors.buttonColor,
+          //     backgroundColor: Colors.white,
+          //     itemStyle: TextStyle(
+          //         color: Colors.black,
+          //         fontWeight: FontWeight.bold,
+          //         fontSize: 18),
+          //     doneStyle: TextStyle(color: Colors.black87, fontSize: 16),
+          //   ),
+          //   onChanged: (date) {},
+          //   onConfirm: (date) {
+          //     setState(() {
+          //       dobController.text = DateFormat('yyyy-MM-dd').format(date);
+          //       // _dobController.text = date.toString();
+          //     });
+          //   },
+          //   currentTime: DateTime.now(),
+          // );
+        },
+        child: Row(
+          children: [
+            Expanded(
+              flex: 9,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: TextField(
+                  style: const TextStyle(color: Colors.black),
+                  // readOnly:  isReadOnly,
+                  controller: textEditingController,
+                  enabled: false,
+                  decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.all(5),
+                    border: InputBorder.none,
+                    // label: Text(labelText),
+                  ),
+                ),
+              ),
+            ),
+            const Flexible(child: Icon(Icons.arrow_drop_down))
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  void restoreState(RestorationBucket? oldBucket, bool initialRestore) {
+    registerForRestoration(_selectedDate, 'selected_date');
+    registerForRestoration(
+        _restorableDatePickerRouteFuture, 'date_picker_route_future');
+  }
+  //
+  // @override
+  // // TODO: implement restorationId
+  // String? get restorationId => throw UnimplementedError();
 }

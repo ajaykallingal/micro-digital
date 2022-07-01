@@ -10,17 +10,16 @@ import 'package:micro_digital/src/data/model/my_booking/my_booking_request.dart'
 import 'package:micro_digital/src/data/model/screening/screening_request.dart';
 import 'package:micro_digital/src/data/model/search/search_request.dart';
 
-
 class ApiClient {
   ApiClient() {
     initClient();
   }
 
-   late Dio dio;
+  late Dio dio;
 
-   late BaseOptions _baseOptions;
+  late BaseOptions _baseOptions;
 
-  String username= 'nadir@communiqo.com';
+  String username = 'nadir@communiqo.com';
   // live
   String password = 'H626881X1i9oCymb95151pa14Mi8395X';
   // dev
@@ -28,10 +27,9 @@ class ApiClient {
   //
   /// client production
   initClient() async {
-
-    String basicAuth = 'Basic ' +
-        base64Encode(utf8.encode('$username:$password'));
-    _baseOptions =  BaseOptions(
+    String basicAuth =
+        'Basic ' + base64Encode(utf8.encode('$username:$password'));
+    _baseOptions = BaseOptions(
         baseUrl: Urls.baseUrlDev,
         connectTimeout: 30000,
         receiveTimeout: 1000000,
@@ -64,8 +62,18 @@ class ApiClient {
     ));
   }
 
+  ///Profile provider
+  ///
 
+  //list_profiles
+  Future<Response> listMyProfile(request) {
+    return dio.get(Urls.listProfiles);
+  }
 
+  //create_profile
+  Future<Response> createProfile(request) {
+    return dio.post(Urls.createProfile, data: request);
+  }
 
   /// Master provider
   ///
@@ -84,6 +92,14 @@ class ApiClient {
   }
 
   ///cart api provider
+
+  Future<Response> getCartList(request) {
+    return dio.get(Urls.getCartList);
+  }
+
+  Future<Response> deleteFromCart(request) {
+    return dio.delete(Urls.deleteFromCart, data: request);
+  }
 
   Future<Response> addToCart(request) {
     return dio.post(Urls.addToCart, data: request);
@@ -112,8 +128,8 @@ class ApiClient {
   Future<Response>? getOtp(phoneNo) {
     try {
       return dio.get(Urls.getOtp + phoneNo);
-    }on DioError  catch (ex) {
-      if(ex.type == DioErrorType.connectTimeout){
+    } on DioError catch (ex) {
+      if (ex.type == DioErrorType.connectTimeout) {
         throw Exception("Connection  Timeout Exception");
       }
       throw Exception(ex.message);
@@ -126,25 +142,12 @@ class ApiClient {
     return dio.post(Urls.createAccount, data: request);
   }
 
-
   ///screening request
   Future<Response> screeningRequest(ScreeningRequest request) {
-    return dio.post(Urls.screeningRequest,data: request);
+    return dio.post(Urls.screeningRequest, data: request);
   }
-
-
-
-
-
-
 
   Future<Response> categoriesRequest(request) {
     return dio.post(Urls.categories, data: request);
-  }
-
-  ///list my profile
-
-  Future<Response> listMyProfile() {
-    return dio.get(Urls.categories);
   }
 }

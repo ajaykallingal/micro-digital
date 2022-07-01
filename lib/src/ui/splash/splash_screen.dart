@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+import '../../data/bloc/auth_bloc.dart';
 import '../../data/shared_pref/object_factory.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -14,6 +15,16 @@ class SplashScreen extends StatefulWidget {
 final splashDelay = 3;
 
 class _SplashScreenState extends State<SplashScreen> {
+  final authBloc = AuthBloc();
+
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  //   authBloc.getOtpSCListener.listen((event) {
+  //     if(!event.authUserResponse!.newUser)
+  //   });
+  // }
+
   @override
   void initState() {
     super.initState();
@@ -23,7 +34,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   _loadWidget() async {
     var _duration = Duration(seconds: splashDelay);
-
     return Timer(_duration, navigationPage);
   }
 
