@@ -1,12 +1,13 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
+// import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:micro_digital/src/common/route_generator.dart';
 import 'package:micro_digital/src/data/bloc/cart_bloc.dart';
 import 'package:micro_digital/src/data/bloc/master_bloc.dart';
 import 'package:micro_digital/src/data/model/cart/add_to_request.dart';
 import 'package:micro_digital/src/data/model/master/package/single_package_response.dart';
+import 'package:micro_digital/src/data/shared_pref/object_factory.dart';
 import 'package:micro_digital/src/ui/package_details/components/select_member_screen_arguments.dart';
 
 import '../flutter_flow/flutter_flow_theme.dart';
@@ -390,17 +391,17 @@ class _PackageDetailsWidgetState extends State<PackageDetailsWidget> {
                                                   Expanded(
                                                     child: TabBarView(
                                                       children: [
-                                                        Padding(
-                                                          padding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(20,
-                                                                      0, 20, 0),
-                                                          child: Html(
-                                                              data: singlePackageResponse!
-                                                                  .basicDetails[
-                                                                      0]
-                                                                  .fullDescription),
-                                                        ),
+                                                        // Padding(
+                                                        //   padding:
+                                                        //       EdgeInsetsDirectional
+                                                        //           .fromSTEB(20,
+                                                        //               0, 20, 0),
+                                                        //   child: Html(
+                                                        //       data: singlePackageResponse!
+                                                        //           .basicDetails[
+                                                        //               0]
+                                                        //           .fullDescription),
+                                                        // ),
                                                         Padding(
                                                           padding:
                                                               EdgeInsetsDirectional
@@ -635,7 +636,10 @@ class _PackageDetailsWidgetState extends State<PackageDetailsWidget> {
                                   request: AddToCartRequest(
                                       productId: singlePackageResponse!
                                           .basicDetails[0].productId,
-                                      userId: "203",
+                                      userId: ObjectFactory()
+                                          .prefs
+                                          .getUserId()
+                                          .toString(),
                                       productPrice: singlePackageResponse!
                                           .basicDetails[0].price));
                               Navigator.pushNamed(context, '/select_Member',

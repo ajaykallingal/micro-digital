@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:micro_digital/src/data/model/auth/auth_response.dart';
+import 'package:micro_digital/src/ui/flutter_flow/flutter_flow_util.dart';
 
 import '../../data/bloc/auth_bloc.dart';
 import '../../data/utils/utils.dart';
@@ -19,6 +21,7 @@ class _LoginWidgetState extends State<LoginWidget> {
   bool loading = false;
   bool clickedOneTime = false;
   String otpFromApi = "0";
+  AuthUserResponse? userResponse;
 
   // TextEditingController? textController;
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -34,27 +37,18 @@ class _LoginWidgetState extends State<LoginWidget> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     authBloc.getOtpSCListener.listen((event) {
-      if (clickedOneTime) if (event.newUser) {
-        setState(() {
-          clickedOneTime = false;
-          loading = false;
-        });
+      userResponse = event;
+      if (userResponse!.authUserResponse!.newUser == true) {
         Navigator.pushNamed(context, "/otp",
             arguments: OtpScreenArguments(
-              phoneNo: _textEditingController.text,
-              otp: event.otp,
-              newUser: event.newUser,
-            ));
+                phoneNo: _textEditingController.text,
+                otp: userResponse!.authUserResponse!.otp));
       } else {
-        setState(() {
-          clickedOneTime = false;
-          loading = false;
-        });
-        showToast("Not a Valid User");
-        setState(() {
-          loading = false;
-        });
+        showSnackbar(context, "Invalid User");
       }
+      setState(() {
+        loading = false;
+      });
     });
   }
 
@@ -277,55 +271,65 @@ class _LoginWidgetState extends State<LoginWidget> {
                                 Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       0, 25, 0, 0),
-                                  child: Container(
-                                    width: double.infinity,
-                                    height: 50,
-                                    decoration: BoxDecoration(),
-                                    child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          40, 0, 40, 0),
-                                      child: FFButtonWidget(
-                                        onPressed: () {
-                                          print('Button pressed ...');
-                                          // otpFromApi ?
-                                          if (!clickedOneTime) {
-                                            if (!loading) {
-                                              showToast("OTP Sent");
-                                              authBloc.getOtp(
-                                                  phoneNo:
-                                                      _textEditingController
-                                                          .text);
-                                              setState(() {
-                                                loading = true;
-                                                clickedOneTime = true;
-                                              });
-                                            }
-                                          }
+                                  child: loading
+                                      ? Center(
+                                          child: CircularProgressIndicator())
+                                      : Container(
+                                          width: double.infinity,
+                                          height: 50,
+                                          decoration: BoxDecoration(),
+                                          child: Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    40, 0, 40, 0),
+                                            child: FFButtonWidget(
+                                              onPressed: () {
+                                                print('Button pressed ...');
+                                                // otpFromApi ?
+                                                if (!clickedOneTime) {
+                                                  if (_textEditingController
+                                                          .text.length !=
+                                                      10) {
+                                                    showToast(
+                                                        "Please provide a valid Mobile number!");
+                                                  } else if (!loading) {
+                                                    showToast("OTP Sent");
+                                                    authBloc.getOtp(
+                                                        phoneNo:
+                                                            _textEditingController
+                                                                .text);
+                                                    setState(() {
+                                                      loading = true;
+                                                      clickedOneTime = true;
+                                                    });
+                                                  }
+                                                }
 
-                                          // authBloc.createAccountWithPhoneNo(request: AuthUserRequest(phoneNo: textController!.text.toString()));
-                                        },
-                                        text: 'Get OTP',
-                                        options: FFButtonOptions(
-                                          width: 130,
-                                          height: 40,
-                                          color: Color(0xFF26ABE2),
-                                          textStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .subtitle2
-                                                  .override(
-                                                    fontFamily: 'Titillium Web',
-                                                    color: Colors.white,
-                                                  ),
-                                          elevation: 0,
-                                          borderSide: BorderSide(
-                                            color: Colors.transparent,
-                                            width: 0,
+                                                // authBloc.createAccountWithPhoneNo(request: AuthUserRequest(phoneNo: textController!.text.toString()));
+                                              },
+                                              text: 'Get OTP',
+                                              options: FFButtonOptions(
+                                                width: 130,
+                                                height: 40,
+                                                color: Color(0xFF26ABE2),
+                                                textStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .subtitle2
+                                                        .override(
+                                                          fontFamily:
+                                                              'Titillium Web',
+                                                          color: Colors.white,
+                                                        ),
+                                                elevation: 0,
+                                                borderSide: BorderSide(
+                                                  color: Colors.transparent,
+                                                  width: 0,
+                                                ),
+                                                borderRadius: 10,
+                                              ),
+                                            ),
                                           ),
-                                          borderRadius: 10,
                                         ),
-                                      ),
-                                    ),
-                                  ),
                                 ),
                               ],
                             ),

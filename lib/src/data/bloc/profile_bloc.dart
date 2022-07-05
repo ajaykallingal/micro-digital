@@ -2,6 +2,7 @@ import 'dart:async';
 
 import '../../constants/strings.dart';
 import '../model/common/state_model.dart';
+import '../model/profile/create_profile/create_profile_response.dart';
 import '../model/profile/list_my_profile/list_my_profile_response.dart';
 import '../shared_pref/object_factory.dart';
 
@@ -21,14 +22,15 @@ class ProfileBloc {
   Stream<ListMyProfileResponse> get listMyProfileSCListener =>
       _listMyProfileSC.stream;
 
-  final _createProfileSC = StreamController<ListMyProfileResponse>.broadcast();
-  StreamSink<ListMyProfileResponse> get createProfileSCSink =>
+  /// create my profile
+  final _createProfileSC = StreamController<CreateProfileResponse>.broadcast();
+  StreamSink<CreateProfileResponse> get createProfileSCSink =>
       _createProfileSC.sink;
-  Stream<ListMyProfileResponse> get createProfileSCListener =>
+  Stream<CreateProfileResponse> get createProfileSCListener =>
       _createProfileSC.stream;
 
   /// method used for fetching company url using company id
-  listMyProfile(request) async {
+  listMyProfile(String request) async {
     if (_isDisposed) {
       return;
     }
@@ -55,7 +57,7 @@ class ProfileBloc {
 
     if (state is SuccessState) {
       if (!_createProfileSC.isClosed) {
-        createProfileSCSink.add(state.value as ListMyProfileResponse);
+        createProfileSCSink.add(state.value as CreateProfileResponse);
       }
     } else if (state is ErrorState) {
       createProfileSCSink.addError(Strings.SOME_ERROR_OCCURRED);

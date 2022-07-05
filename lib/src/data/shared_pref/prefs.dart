@@ -7,6 +7,7 @@ class Prefs {
   JsonCodec codec = new JsonCodec();
   SharedPreferences? _sharedPreferences;
 
+  static const String? _PROFILE_ID = "profile_id";
   static const String? _PHONE_NUMBER = "phone_number";
   static const String? _AUTH_TOKEN = "auth_token";
   static const String? _USER_ID = "user_id";
@@ -28,6 +29,14 @@ class Prefs {
   }
 
   ///saving  the phone number as a String
+  void setUserProfileId(String string, {String? profileId}) {
+    _sharedPreferences!.setString(_PROFILE_ID!, profileId!);
+  }
+
+  ///get method  for phone number
+  String? getUserProfileId() => _sharedPreferences!.getString(_PROFILE_ID!);
+
+  ///saving  the phone number as a String
   void setUserPhoneNumber(String string, {String? phoneNumber}) {
     _sharedPreferences!.setString(_PHONE_NUMBER!, phoneNumber!);
   }
@@ -44,7 +53,7 @@ class Prefs {
   String? getAuthToken() => _sharedPreferences?.getString(_AUTH_TOKEN!);
 
   ///saving  the auth token as a String
-  void setUserId({String? userId}) {
+  void setUserId(String string, {String? userId}) {
     _sharedPreferences!.setString(_USER_ID!, userId!);
   }
 

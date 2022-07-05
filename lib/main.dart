@@ -73,7 +73,7 @@ class _MyAppState extends State<MyApp> {
           brightness: Brightness.dark,
           visualDensity: VisualDensity.adaptivePlatformDensity),
       themeMode: ThemeMode.light,
-      initialRoute: '/dashboard',
+      initialRoute: '/splash',
       onGenerateRoute: RouteGenerator.generateRoute,
     );
   }

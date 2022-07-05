@@ -40,6 +40,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void navigationPage() {
     if (mounted) {
       print(ObjectFactory().prefs.isLoggedIn().toString());
+      print(ObjectFactory().prefs.getUserId().toString());
       // Navigator.pushAndRemoveUntil(
       //     context,
       //     MaterialPageRoute(

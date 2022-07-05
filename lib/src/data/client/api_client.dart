@@ -62,12 +62,19 @@ class ApiClient {
     ));
   }
 
+  ///Order provider
+  ///
+
+  Future<Response> checkoutOrder(request) {
+    return dio.post(Urls.checkout, data: request);
+  }
+
   ///Profile provider
   ///
 
   //list_profiles
   Future<Response> listMyProfile(request) {
-    return dio.get(Urls.listProfiles);
+    return dio.get(Urls.listProfiles + request);
   }
 
   //create_profile

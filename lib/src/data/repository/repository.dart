@@ -7,11 +7,13 @@ import 'package:micro_digital/src/data/provider/screening_provider.dart';
 import 'package:micro_digital/src/data/provider/search_provider.dart';
 
 import '../provider/auth_api_provider.dart';
+import '../provider/order_api_provider.dart';
 import '../provider/profile_provider.dart';
 
 /// Repository is an intermediary class between network and data
 class Repository {
   // final authApiProvider = AuthApiProvider();
+  final orderApiProvider = OrderApiProvider();
   final masterApiProvider = MasterApiProvider();
   final bookingApiProvider = BookingApiProvider();
   final searchApiProvider = SearchApiProvider();
@@ -26,11 +28,16 @@ class Repository {
   //get otp
   // Future<StateModel> getOtp(phoneNo,signature) => authApiProvider.getOtp(phoneNo,signature);
 
+  ///order api provider
+
+  Future<StateModel> checkoutOrder(request) =>
+      orderApiProvider.checkoutOrder(request);
+
   ///profile api provider
   Future<StateModel> createProfile(request) =>
       profileApiProvider.createProfile(request);
 
-  Future<StateModel> listMyProfile(request) =>
+  Future<StateModel> listMyProfile(String request) =>
       profileApiProvider.listMyProfile(request);
 
   ///master api provider

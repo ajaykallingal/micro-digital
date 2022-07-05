@@ -16,6 +16,10 @@ class Urls {
   static const String singleTestDetails =
       "/api/SingleTest?itemID=438&userID=103";
 
+  ///checkout api provider
+
+  static const String checkout = "/api/MyBookings";
+
   ///cart api provider
   static const String getCartList = "/api/Cart/?userID=203";
 
@@ -41,6 +45,6 @@ class Urls {
   static const String categories = "/api/ProductCategory";
 
   ///Profile provider
-  static const String listProfiles = "/api/Profile?Type=0&userID=203";
+  static const String listProfiles = "/api/Profile?Type=0&userID=";
   static const String createProfile = "/api/Profile";
 }

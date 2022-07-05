@@ -8,6 +8,7 @@ import 'package:micro_digital/src/ui/login/otp_verification_screen.dart';
 import 'package:micro_digital/src/ui/orderdetails/orderdetails_widget.dart';
 import 'package:micro_digital/src/ui/package_details/components/select_member_screen_arguments.dart';
 import 'package:micro_digital/src/ui/package_details/package_details_widget.dart';
+import 'package:micro_digital/src/ui/payment/payment_screen.dart';
 import 'package:micro_digital/src/ui/risk_areas/risk_area_category_detailed_list_view.dart';
 import 'package:micro_digital/src/ui/risk_areas/risk_area_detailed_view_arguments.dart';
 import 'package:micro_digital/src/ui/risk_areas/risk_areas_category.dart';
@@ -39,6 +40,7 @@ class RouteGenerator {
   static const menuPage = '/menu';
   static const cartPage = '/cart';
   static const checkoutPage = '/checkout';
+  static const paymentPage = '/payment';
   static const packageCategoryPage = '/package_category';
   static const packageDetailsPage = '/package_details';
   static const myReportPage = '/my_reports';
@@ -126,6 +128,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => CheckoutWidget());
       case cartPage:
         return MaterialPageRoute(builder: (_) => CartScreen());
+      case paymentPage:
+        return MaterialPageRoute(builder: (_) => PaymentScreen());
       case testDetailPage:
         return MaterialPageRoute(builder: (_) => TestDetailsWidget());
       case screeningScreenPage:

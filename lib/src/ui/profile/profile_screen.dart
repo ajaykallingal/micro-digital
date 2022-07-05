@@ -4,11 +4,11 @@ import 'package:micro_digital/src/constants/assets.dart';
 import 'package:micro_digital/src/constants/colors.dart';
 import 'package:micro_digital/src/data/bloc/profile_bloc.dart';
 import 'package:micro_digital/src/data/model/profile/create_profile/create_profile_request.dart';
-import 'package:micro_digital/src/data/model/profile/list_my_profile/list_my_profile_response.dart';
 import 'package:micro_digital/src/data/shared_pref/object_factory.dart';
 import 'package:micro_digital/src/data/utils/screen_size/size_config.dart';
 import 'package:micro_digital/src/ui/widgets/header.dart';
 
+import '../../data/model/profile/list_my_profile/list_my_profile_response.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -27,23 +27,18 @@ class _ProfileScreenState extends State<ProfileScreen> with Header {
     "Terms & Conditions",
     "Log out",
   ];
-
+  ListMyProfileResponse? listMyProfileResponse;
   List<String> featureIconList = [];
   late double _height;
   late double _width;
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
   final profileBloc = ProfileBloc();
-  // ListMyProfileResponse? profileResponse;
-  List<MyProfileList>? myProfileList = List.empty(growable: true);
-
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    profileBloc.createProfileSCListener.listen((event) {
-      setState(() {
-        myProfileList = event.myProfileList;
-      });
+    profileBloc.listMyProfileSCListener.listen((event) {
+      listMyProfileResponse = event;
     });
   }
 
@@ -51,7 +46,7 @@ class _ProfileScreenState extends State<ProfileScreen> with Header {
   void initState() {
     super.initState();
     // Add code after super
-    profileBloc.listMyProfile(203);
+    profileBloc.listMyProfile(ObjectFactory().prefs.getUserId().toString());
   }
 
   @override
@@ -128,7 +123,13 @@ class _ProfileScreenState extends State<ProfileScreen> with Header {
                             Align(
                               alignment: Alignment.topCenter,
                               child: Text(
-                                "Mr. John Mathews",
+                                listMyProfileResponse != null
+                                    ? listMyProfileResponse!
+                                        .myProfileList![0].sFirstname
+                                    : ObjectFactory()
+                                        .prefs
+                                        .getUserPhoneNumber()
+                                        .toString(),
                                 style: const TextStyle(
                                     fontSize: 20, fontWeight: FontWeight.w700),
                               ),

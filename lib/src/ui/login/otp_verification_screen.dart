@@ -5,6 +5,7 @@ import 'package:micro_digital/src/data/model/auth/auth_request.dart';
 import 'package:micro_digital/src/data/shared_pref/object_factory.dart';
 import 'package:micro_digital/src/data/utils/utils.dart';
 
+import '../../data/model/auth/auth_request_response.dart';
 import 'otp_screen_argument.dart';
 
 class OtpVerificationScreen extends StatefulWidget {
@@ -49,6 +50,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
 
   final authBloc = AuthBloc();
   String otpFromApi = "0";
+  AuthUserRequestResponse? authUserRequestResponse;
 
   // bool newUser;
 
@@ -110,23 +112,31 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
 
-    // authBloc.otpLoginSCListener.listen((event) {
-    //   // ObjectFactory().prefs.savePhleboData(result:event);
-    // });
+    authBloc.otpLoginSCListener.listen((event) {
+      setState(() {
+        authUserRequestResponse = event;
+        authBloc.createAccountWithPhoneNo(
+            request:
+                AuthUserRequest(phoneNo: widget.otpScreenArguments.phoneNo));
+        ObjectFactory()
+            .prefs
+            .setUserProfileId(authUserRequestResponse!.profileId.toString());
+        ObjectFactory()
+            .prefs
+            .setUserId(authUserRequestResponse!.userId.toString());
+      });
+    });
 
     authBloc.getOtpSCListener.listen((event) {
-      if (event.newUser) {
-        setState(() {
-          otpFromApi = event.otp;
-          authBloc.createAccountWithPhoneNo(
-              request:
-                  AuthUserRequest(phoneNo: widget.otpScreenArguments.phoneNo));
-          ObjectFactory().prefs.setIsLoggedIn(true);
-        });
-      } else {
-        Navigator.pushNamedAndRemoveUntil(
-            context, "/dashboard", (route) => false);
-      }
+      setState(() {
+        otpFromApi = event.authUserResponse!.otp;
+
+        ObjectFactory().prefs.setIsLoggedIn(true);
+
+        ObjectFactory()
+            .prefs
+            .setUserPhoneNumber(widget.otpScreenArguments.phoneNo);
+      });
     });
 
     super.didChangeDependencies();
@@ -389,20 +399,20 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
                               controller4.text;
                           if (otpFromInput == widget.otpScreenArguments.otp ||
                               otpFromInput == otpFromApi) {
-                            if (widget.otpScreenArguments.newUser) {
-                              ObjectFactory().prefs.setIsLoggedIn(true);
-                              Navigator.pushNamedAndRemoveUntil(
-                                  context, "/dashboard", (route) => false);
-                            } else {
-                              Navigator.pushNamedAndRemoveUntil(
-                                  context, "/dashboard", (route) => false);
-                            }
+                            ObjectFactory().prefs.setIsLoggedIn(true);
 
-                            // authBloc.createAccountWithPhoneNo(
-                            //   request: AuthUserRequest(
-                            //       phoneNo: widget.otpScreenArguments.phoneNo),
-                            // );
+                            // ObjectFactory().prefs.setUserPhoneNumber(widget)
+                            Navigator.pushNamedAndRemoveUntil(
+                                context, "/dashboard", (route) => false);
+                          } else {
+                            showToast(
+                                "Sorry!We couldn't log you in,Please try again.");
                           }
+
+                          // authBloc.createAccountWithPhoneNo(
+                          //   request: AuthUserRequest(
+                          //       phoneNo: widget.otpScreenArguments.phoneNo),
+                          // );
                         },
                         child: Icon(Icons.arrow_right_alt),
                         backgroundColor: accentColor,

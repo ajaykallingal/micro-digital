@@ -254,7 +254,7 @@ class _DashboardScreenState extends State<DashboardScreen> with Header {
                               onPressed: () {
                                 // ObjectFactory().prefs.getUserPhoneNumber();
 
-                                Navigator.pushNamed(context, '/cart');
+                                // Navigator.pushNamed(context, '/payment');
                               },
                               showViewAll: true),
                           buildSpaceWidget(),
@@ -263,7 +263,7 @@ class _DashboardScreenState extends State<DashboardScreen> with Header {
                           buildHeading(
                               heading: "Risk Areas",
                               onPressed: () {
-                                Navigator.pushNamed(context, "/select_Member");
+                                // Navigator.pushNamed(context, "/select_Member");
                               },
                               showViewAll: true),
                           buildSpaceWidget(),

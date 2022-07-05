@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:micro_digital/src/common/styles.dart';
 import 'package:micro_digital/src/data/bloc/cart_bloc.dart';
+import 'package:micro_digital/src/data/bloc/order_bloc.dart';
 import 'package:micro_digital/src/data/model/cart/delete_cart_request.dart';
 
 import '../../data/model/cart/add_to_cart_response.dart';
-import '../../data/model/cart/add_to_request.dart';
 import '../../data/utils/screen_size/size_config.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 
@@ -21,6 +21,7 @@ class _CartScreenState extends State<CartScreen> {
   final cartBloc = CartBloc();
   // List<CartList> cartList = List.empty(growable: true);
   AddToCartResponse? listCartItems;
+  final orderBloc = OrderBloc();
 
   @override
   void didChangeDependencies() {
@@ -498,12 +499,15 @@ class _CartScreenState extends State<CartScreen> {
                                 ),
                                 color: Color(0x004B39EF),
                                 onPressed: () {
-                                  cartBloc.addToCart(
-                                      request: AddToCartRequest(
-                                          productId: "494",
-                                          userId: "134",
-                                          productPrice: "1500.00"));
-                                  Navigator.pushNamed(context, '/checkout');
+                                  // cartBloc.addToCart(
+                                  //     request: AddToCartRequest(
+                                  //         productId: "494",
+                                  //         userId: "134",
+                                  //         productPrice: "1500.00"));
+                                  Navigator.pushNamed(
+                                    context,
+                                    '/checkout',
+                                  );
                                 },
                                 child: Text(
                                   "Checkout",

@@ -1,27 +1,27 @@
 // To parse this JSON data, do
 //
-//     final authGetUserResponse = authGetUserResponseFromJson(jsonString);
+//     final authUserResponse = authUserResponseFromJson(jsonString);
 
 import 'dart:convert';
 
-AuthGetUserResponse authGetUserResponseFromJson(String str) =>
-    AuthGetUserResponse.fromJson(json.decode(str));
+AuthUserResponse authUserResponseFromJson(String str) =>
+    AuthUserResponse.fromJson(json.decode(str));
 
-String authGetUserResponseToJson(AuthGetUserResponse data) =>
+String authUserResponseToJson(AuthUserResponse data) =>
     json.encode(data.toJson());
 
-class AuthGetUserResponse {
-  AuthGetUserResponse({
+class AuthUserResponse {
+  AuthUserResponse({
     required this.authUserResponse,
   });
 
-  final AuthUserResponse? authUserResponse;
+  final AuthUserResponseClass? authUserResponse;
 
-  factory AuthGetUserResponse.fromJson(Map<String, dynamic> json) =>
-      AuthGetUserResponse(
+  factory AuthUserResponse.fromJson(Map<String, dynamic> json) =>
+      AuthUserResponse(
         authUserResponse: json["authUserResponse"] == null
             ? null
-            : AuthUserResponse.fromJson(json["authUserResponse"]),
+            : AuthUserResponseClass.fromJson(json["authUserResponse"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -30,8 +30,8 @@ class AuthGetUserResponse {
       };
 }
 
-class AuthUserResponse {
-  AuthUserResponse({
+class AuthUserResponseClass {
+  AuthUserResponseClass({
     required this.otp,
     required this.phoneNumber,
     required this.newUser,
@@ -43,8 +43,8 @@ class AuthUserResponse {
   final bool newUser;
   final String userId;
 
-  factory AuthUserResponse.fromJson(Map<String, dynamic> json) =>
-      AuthUserResponse(
+  factory AuthUserResponseClass.fromJson(Map<String, dynamic> json) =>
+      AuthUserResponseClass(
         otp: json["otp"] == null ? null : json["otp"],
         phoneNumber: json["phoneNumber"] == null ? null : json["phoneNumber"],
         newUser: json["newUser"] == null ? null : json["newUser"],
